@@ -105,7 +105,7 @@
             />
         </div>
 
-        <!-- Restored amountInBanglaWords div and updated class for vertical centering -->
+        <!-- Restored amountInBanglaWords div for Bangla text -->
         <div id="amountInWordsContainer" class="bg-blue-50 rounded-lg border border-blue-200 mt-2 mb-0 text-base font-medium overflow-hidden flex flex-col justify-center" style="height: 60px;">
             <div id="amountInBanglaWords" class="text-green-700 text-xl font-semibold px-2"></div>
             <div id="amountInEnglishWords" class="text-gray-600 capitalize text-lg px-2"></div>
@@ -309,34 +309,45 @@
                 return words.trim();
             }
 
-            // Function to convert numbers to Bangla words (corrected for Indian/Bangla system)
+            // Function to convert numbers to Bangla words (corrected and more robust)
             function numberToBanglaWords(num) {
                 if (num === 0) return 'শূন্য';
 
-                const banglaUnits = ['', 'এক', 'দুই', 'তিন', 'চার', 'পাঁচ', 'ছয়', 'সাত', 'আট', 'নয়'];
-                const banglaTeens = ['দশ', 'এগারো', 'বারো', 'তেরো', 'চৌদ্দ', 'পনেরো', 'ষোলো', 'সতেরো', 'আঠারো', 'উনিশ'];
-                const banglaTens = ['', '', 'বিশ', 'ত্রিশ', 'চল্লিশ', 'পঞ্চাশ', 'ষাট', 'সত্তর', 'আশি', 'নব্বই'];
-                const banglaScales = ['', 'হাজার', 'লাখ', 'কোটি', 'আরব', 'শঙ্খ'];
+                // Comprehensive list for numbers 0-99 for accuracy
+                const banglaNumbers0To99 = [
+                    'শূন্য', 'এক', 'দুই', 'তিন', 'চার', 'পাঁচ', 'ছয়', 'সাত', 'আট', 'নয়',
+                    'দশ', 'এগারো', 'বারো', 'তেরো', 'চৌদ্দ', 'পনেরো', 'ষোলো', 'সতেরো', 'আঠারো', 'উনিশ',
+                    'বিশ', 'একুশ', 'বাইশ', 'তেইশ', 'চব্বিশ', 'পঁচিশ', 'ছাব্বিশ', 'সাতাশ', 'আটাশ', 'ঊনত্রিশ',
+                    'ত্রিশ', 'একত্রিশ', 'বত্রিশ', 'তেত্রিশ', 'চৌত্রিশ', 'পঁয়ত্রিশ', 'ছত্রিশ', 'সাঁইত্রিশ', 'আটত্রিশ', 'ঊনচল্লিশ',
+                    'চল্লিশ', 'একচল্লিশ', 'বিয়াল্লিশ', 'তেতাল্লিশ', 'চুয়াল্লিশ', 'পঁয়তাল্লিশ', 'ছেচল্লিশ', 'সাতচল্লিশ', 'আটচল্লিশ', 'ঊনপঞ্চাশ',
+                    'পঞ্চাশ', 'একান্ন', 'বায়ান্ন', 'তিপ্পান্ন', 'চুয়ান্ন', 'পঞ্চান্ন', 'ছাপ্পান্ন', 'সাতান্ন', 'আটান্ন', 'ঊনষাট',
+                    'ষাট', 'একষট্টি', 'বাষট্টি', 'তেষট্টি', 'চৌষট্টি', 'পঁয়ষট্টি', 'ছেষট্টি', 'সাতষট্টি', 'আটষট্টি', 'ঊনসত্তর',
+                    'সত্তর', 'একাত্তর', 'বাহাত্তর', 'তিয়াত্তর', 'চুয়াত্তর', 'পঁচাত্তর', 'ছিয়াত্তর', 'সাতাত্তর', 'আটাত্তর', 'ঊনআশি',
+                    'আশি', 'একআশি', 'বিরাশি', 'তিরাশি', 'চুরাশি', 'পঁচাশি', 'ছিয়াশি', 'সাতাশি', 'আটাশি', 'ঊননব্বই',
+                    'নব্বই', 'একানব্বই', 'বিরানব্বই', 'তিরানব্বই', 'চুরানব্বই', 'পঁচানব্বই', 'ছিয়ানব্বই', 'সাতানব্বই', 'আঠানব্বই', 'নিরানব্বই'
+                ];
 
-                // Helper to convert a number < 100 to Bangla words
-                function convertLessThanHundred(n) {
-                    if (n === 0) return '';
-                    if (n < 10) return banglaUnits[n];
-                    if (n >= 10 && n <= 19) return banglaTeens[n - 10];
-                    return banglaTens[Math.floor(n / 10)] + (n % 10 !== 0 ? ' ' + banglaUnits[n % 10] : '');
+                const banglaScales = ['', 'হাজার', 'লাখ', 'কোটি', 'আরব', 'খর্ব', 'নীল', 'পদ্ম', 'শঙ্খ']; // Expanded scales
+
+                // Helper to convert numbers up to 99
+                function convertTwoDigits(n) {
+                    if (n >= 0 && n <= 99) { // Directly use the comprehensive array for all 0-99
+                        return banglaNumbers0To99[n];
+                    }
+                    return '';
                 }
 
-                // Helper to convert a number < 1000 to Bangla words (handles hundreds)
-                function convertLessThanThousand(n) {
+                // Helper to convert numbers up to 999
+                function convertThreeDigits(n) {
                     let words = '';
                     const hundred = Math.floor(n / 100);
                     const remainder = n % 100;
 
                     if (hundred > 0) {
-                        words += banglaUnits[hundred] + ' শত';
+                        words += banglaNumbers0To99[hundred] + ' শত'; // Use banglaNumbers0To99 for the hundred digit
                         if (remainder > 0) words += ' ';
                     }
-                    words += convertLessThanHundred(remainder);
+                    words += convertTwoDigits(remainder); // Use the improved convertTwoDigits for the remainder
                     return words.trim();
                 }
 
@@ -347,77 +358,60 @@
                 let decimalPart = parts.length > 1 ? parts[1] : '';
 
                 let integerValue = parseInt(integerPart, 10);
-                if (integerValue === 0 && integerPart === '0') {
+
+                if (integerValue === 0 && decimalPart === '') {
                     words = 'শূন্য';
                 } else {
-                    let tempNum = String(integerValue);
-                    let resultChunks = []; // Stores the Bangla word for each group (e.g., "এক", "পঁচিশ", "সত্তর")
-                    let scaleCounters = []; // Stores the corresponding scale (e.g., "হাজার", "লাখ")
+                    let tempNum = integerPart;
+                    let numChunks = []; // Stores the numeric values of chunks (e.g., 12 for 12,000,000)
 
-                    // First, handle the last three digits (0-999)
-                    if (tempNum.length > 3) {
-                        let lastThree = tempNum.slice(-3);
+                    // First, handle the last three digits (hundreds part)
+                    if (tempNum.length > 0) {
+                        // Ensure we always push a chunk, even if it's '000'
+                        numChunks.push(parseInt(tempNum.slice(-3), 10));
                         tempNum = tempNum.slice(0, -3);
-                        if (parseInt(lastThree, 10) > 0) {
-                            resultChunks.unshift(convertLessThanThousand(parseInt(lastThree, 10)));
-                            scaleCounters.unshift(''); // No scale for the units part
-                        } else {
-                            resultChunks.unshift('');
-                            scaleCounters.unshift('');
-                        }
-                    } else {
-                        if (parseInt(tempNum, 10) > 0) {
-                            resultChunks.unshift(convertLessThanThousand(parseInt(tempNum, 10)));
-                            scaleCounters.unshift('');
-                        } else {
-                            resultChunks.unshift('');
-                            scaleCounters.unshift('');
-                        }
-                        tempNum = '';
                     }
-
-                    let scaleIndex = 0; // 0 for thousands, 1 for lakhs, 2 for crores etc.
+                    
+                    // Then handle pairs of digits (for thousands, lakhs, crores etc.)
                     while (tempNum.length > 0) {
-                        scaleIndex++;
-                        let chunk = '';
-                        if (tempNum.length >= 2) {
-                            chunk = tempNum.slice(-2);
-                            tempNum = tempNum.slice(0, -2);
-                        } else { // Handle single remaining digit (e.g., 10 for 10 crore)
-                            chunk = tempNum.slice(-1);
-                            tempNum = '';
-                        }
-
-                        let chunkValue = parseInt(chunk, 10);
-                        if (chunkValue > 0) {
-                            resultChunks.unshift(convertLessThanHundred(chunkValue));
-                            scaleCounters.unshift(banglaScales[scaleIndex] || '');
-                        } else {
-                            resultChunks.unshift('');
-                            scaleCounters.unshift('');
-                        }
+                        let chunkLength = Math.min(2, tempNum.length);
+                        numChunks.push(parseInt(tempNum.slice(-chunkLength), 10));
+                        tempNum = tempNum.slice(0, -chunkLength);
                     }
 
-                    // Assemble the words from chunks and scales
-                    let finalWords = [];
-                    for (let i = 0; i < resultChunks.length; i++) {
-                        if (resultChunks[i]) { // Only add if the chunk has words
-                            finalWords.push(resultChunks[i] + (scaleCounters[i] ? ' ' + scaleCounters[i] : ''));
+                    let wordsArray = [];
+                    // Process chunks from largest scale to smallest (reverse order of how they were pushed)
+                    for (let i = numChunks.length - 1; i >= 0; i--) {
+                        const chunkValue = numChunks[i];
+                        const scaleIndex = i; // This directly corresponds to the banglaScales index
+
+                        if (chunkValue > 0) { // Only add words for non-zero chunks
+                            let chunkWords = '';
+                            if (scaleIndex === 0) { // The last chunk (units, tens, hundreds)
+                                chunkWords = convertThreeDigits(chunkValue);
+                            } else {
+                                chunkWords = convertTwoDigits(chunkValue) + ' ' + banglaScales[scaleIndex];
+                            }
+                            wordsArray.push(chunkWords);
+                        } else if (scaleIndex === 0 && numChunks.length === 1 && integerValue === 0) {
+                             // Special case for "0" as integer part
+                             wordsArray.push(banglaNumbers0To99[0]);
                         }
                     }
-                    words = finalWords.join(' ').trim();
+                    words = wordsArray.join(' ').trim();
                 }
 
                 // Handle decimal part
                 if (decimalPart) {
-                    if (words === '') words = 'শূন্য';
+                    if (words === '') words = 'শূন্য'; // If integer part was zero, start with "শূন্য দশমিক"
                     words += ' দশমিক '; // Doshomik (decimal point)
                     for (let i = 0; i < decimalPart.length; i++) {
-                        words += banglaUnits[parseInt(decimalPart[i], 10)] + ' ';
+                        words += banglaNumbers0To99[parseInt(decimalPart[i], 10)] + ' '; // Use banglaNumbers0To99 for single digits
                     }
                 }
                 return words.trim();
             }
+
 
             // Function to update the amount in words display for both languages and emoji visibility
             function updateAmountInWords() {
