@@ -64,18 +64,22 @@
 
         /* Style for clickable rate options in modal */
         .rate-option {
-            background-color: #f3f4f6; /* Light gray background */
-            border: 1px solid #e5e7eb; /* Light border */
+            /* Removed background-color and border to allow Tailwind classes to take precedence */
             padding: 0.5rem 1rem;
             margin-bottom: 0.5rem;
-            border-radius: 0.375rem; /* Rounded corners */
+            border-radius: 0.375rem;
             cursor: pointer;
-            transition: background-color 0.2s ease-in-out;
-            text-align: left; /* Align text to left */
-            font-size: 0.9rem; /* Slightly smaller font for options */
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+            text-align: left;
+            font-size: 0.9rem;
+            font-weight: 500; /* Medium font weight for better readability */
+            display: flex; /* Ensure it behaves like a flex container for content */
+            align-items: center; /* Vertically align text */
+            justify-content: space-between; /* Space out text and potential other elements */
         }
         .rate-option:hover {
-            background-color: #e5e7eb; /* Darker gray on hover */
+            transform: translateY(-1px); /* Slight lift on hover */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
         }
 
         /* CSS for zoom and glow effect on charge rate text */
@@ -86,7 +90,14 @@
         }
 
         .rate-effect {
-            animation: zoomGlow 0.5s ease-out; /* Short, quick animation */
+            animation: zoomGlow 0.5s ease-out; /* Faster animation duration */
+            animation-delay: 0.4s; /* Reduced delay */
+        }
+
+        /* Visual cue for editing input in modal */
+        .new-rate-input-cue {
+            border: 2px solid #3b82f6; /* A more prominent blue border */
+            background-color: #e0f2fe; /* Light blue background */
         }
     </style>
 </head>
@@ -172,9 +183,10 @@
                 <input type="number" id="newChargeRateInput" class="w-full p-2 border rounded mb-4 text-center text-xl" value="18.50" min="0" step="0.01">
                 
                 <div class="mb-4">
-                    <div class="rate-option" data-rate="18.50">Regular Cash out rate: 18.50</div>
-                    <div class="rate-option" data-rate="14.50">Prito Agent Cash out rate: 14.50</div>
-                    <div class="rate-option" data-rate="20.00">Old Charge Rate: 20.00</div>
+                    <!-- Updated with specific Tailwind colors -->
+                    <div class="rate-option bg-green-500 text-white hover:bg-green-600" data-rate="18.50">Regular Cash out rate: 18.50</div>
+                    <div class="rate-option bg-pink-500 text-white hover:bg-pink-600" data-rate="14.50">Prito Agent Cash out rate: 14.50</div>
+                    <div class="rate-option bg-red-500 text-white hover:bg-red-600" data-rate="20.00">Old Charge Rate: 20.00</div>
                 </div>
 
                 <div class="flex justify-around">
@@ -227,12 +239,14 @@
                 newChargeRateInput.value = currentChargeRate.toFixed(2); // Set modal input to current rate, formatted
                 rateModal.classList.remove('hidden');
                 rateModal.classList.add('flex');
-                newChargeRateInput.focus(); // Focus on the input when modal opens
+                newChargeRateInput.classList.add('new-rate-input-cue'); // Add visual cue
+                // Removed: newChargeRateInput.focus(); // No automatic focus
             }
 
             function hideRateModal() {
                 rateModal.classList.remove('flex');
                 rateModal.classList.add('hidden');
+                newChargeRateInput.classList.remove('new-rate-input-cue'); // Remove visual cue
             }
 
             function performCalculation() {
@@ -331,7 +345,10 @@
 
                 // Helper to convert numbers up to 99
                 function convertTwoDigits(n) {
-                    if (n >= 0 && n <= 99) { // Directly use the comprehensive array for all 0-99
+                    if (n === 0) {
+                        return ''; // Return empty string for zero when it's part of a larger number (e.g., 100)
+                    }
+                    if (n >= 0 && n <= 99) {
                         return banglaNumbers0To99[n];
                     }
                     return '';
@@ -344,10 +361,10 @@
                     const remainder = n % 100;
 
                     if (hundred > 0) {
-                        words += banglaNumbers0To99[hundred] + ' শত'; // Use banglaNumbers0To99 for the hundred digit
-                        if (remainder > 0) words += ' ';
+                        words += banglaNumbers0To99[hundred] + ' শত';
+                        if (remainder > 0) words += ' '; // Only add space if there's a non-zero remainder
                     }
-                    words += convertTwoDigits(remainder); // Use the improved convertTwoDigits for the remainder
+                    words += convertTwoDigits(remainder);
                     return words.trim();
                 }
 
@@ -363,11 +380,10 @@
                     words = 'শূন্য';
                 } else {
                     let tempNum = integerPart;
-                    let numChunks = []; // Stores the numeric values of chunks (e.g., 12 for 12,000,000)
+                    let numChunks = [];
 
-                    // First, handle the last three digits (hundreds part)
+                    // Extract the last three digits (hundreds part)
                     if (tempNum.length > 0) {
-                        // Ensure we always push a chunk, even if it's '000'
                         numChunks.push(parseInt(tempNum.slice(-3), 10));
                         tempNum = tempNum.slice(0, -3);
                     }
@@ -380,22 +396,18 @@
                     }
 
                     let wordsArray = [];
-                    // Process chunks from largest scale to smallest (reverse order of how they were pushed)
                     for (let i = numChunks.length - 1; i >= 0; i--) {
                         const chunkValue = numChunks[i];
-                        const scaleIndex = i; // This directly corresponds to the banglaScales index
+                        const scaleIndex = i;
 
-                        if (chunkValue > 0) { // Only add words for non-zero chunks
+                        if (chunkValue > 0) {
                             let chunkWords = '';
-                            if (scaleIndex === 0) { // The last chunk (units, tens, hundreds)
+                            if (scaleIndex === 0) {
                                 chunkWords = convertThreeDigits(chunkValue);
                             } else {
                                 chunkWords = convertTwoDigits(chunkValue) + ' ' + banglaScales[scaleIndex];
                             }
                             wordsArray.push(chunkWords);
-                        } else if (scaleIndex === 0 && numChunks.length === 1 && integerValue === 0) {
-                             // Special case for "0" as integer part
-                             wordsArray.push(banglaNumbers0To99[0]);
                         }
                     }
                     words = wordsArray.join(' ').trim();
@@ -403,10 +415,10 @@
 
                 // Handle decimal part
                 if (decimalPart) {
-                    if (words === '') words = 'শূন্য'; // If integer part was zero, start with "শূন্য দশমিক"
-                    words += ' দশমিক '; // Doshomik (decimal point)
+                    if (words === '') words = 'শূন্য';
+                    words += ' দশমিক ';
                     for (let i = 0; i < decimalPart.length; i++) {
-                        words += banglaNumbers0To99[parseInt(decimalPart[i], 10)] + ' '; // Use banglaNumbers0To99 for single digits
+                        words += banglaNumbers0To99[parseInt(decimalPart[i], 10)] + ' ';
                     }
                 }
                 return words.trim();
