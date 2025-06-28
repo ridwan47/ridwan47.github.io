@@ -252,13 +252,13 @@
                     </div>
                 </div>
 
-                <div class="flex justify-around mt-auto">
+                <div class="flex justify-around mt-auto mb-2">
                     <button id="saveRateButton" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">Save</button>
                     <button id="cancelRateButton" class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300">Cancel</button>
                 </div>
 
-                <!-- Copyright Notice inside modal -->
-                <div class="text-gray-600 text-xs mt-4">
+                <!-- Copyright Notice inside modal, with adjusted styling -->
+                <div class="text-gray-600 text-base mt-0 p-0 absolute bottom-2 left-1/2 -translate-x-1/2">
                     Copyright © Cash Out Calculator by <a href="https://x.com/mdridwan" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">mdridwan</a>
                 </div>
             </div>
@@ -298,7 +298,7 @@
             const rateModal = document.getElementById('rateModal');
             const newChargeRateInput = document.getElementById('newChargeRateInput');
             const saveRateButton = document.getElementById('saveRateButton');
-            const cancelRateButton = document.getElementById('cancelRateButton'); // Corrected typo here
+            const cancelRateButton = document.getElementById('cancelRateButton'); 
             const rateOptions = document.querySelectorAll('.rate-option'); // Get all rate options
 
             // Initialize currentChargeRate and display it
@@ -510,7 +510,7 @@
                 const value = inputValue.value;
                 if (value === '') {
                     // Show English text only when input is empty
-                    amountInEnglishWords.textContent = 'Cash Out Calculator'; // Changed text here
+                    amountInEnglishWords.textContent = 'Cash Out Calculator'; 
                     // Ensure Bangla div is cleared when input is empty
                     amountInBanglaWords.textContent = '';
                 } else {
