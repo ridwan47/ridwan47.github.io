@@ -76,12 +76,8 @@
             align-items: center;
             justify-content: space-between;
             white-space: nowrap; /* Ensure text stays on one line */
-            /* Adjusted text stroke and removed shadow */
-            text-shadow:
-                -2px -2px 0 #000,
-                 2px -2px 0 #000,
-                -2px 2px 0 #000,
-                 2px 2px 0 #000; /* Bigger black stroke */
+            /* Adjusted text stroke/glow */
+            text-shadow: 0 0 2px rgba(0, 0, 0, 0.8); /* Subtle black glow */
         }
         .rate-option:hover {
             transform: translateY(-2px); /* Slightly more lift on hover */
