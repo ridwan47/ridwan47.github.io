@@ -113,28 +113,21 @@
             <button class="keypad-button action-key" data-action="backspace">←</button>
         </div>
 
-        <!-- Moved input for Charge Rate to the bottom and added Change button -->
-        <div class="mt-4 text-left flex items-center">
-            <label for="chargeRateInput" class="block text-gray-700 text-sm font-bold mr-2 whitespace-nowrap">
+        <!-- Display for Charge Rate as text, and Change button -->
+        <div class="mt-4 text-left flex items-center justify-between">
+            <label class="block text-gray-700 text-sm font-bold whitespace-nowrap mr-2">
                 Bkash Charge Rate (per 1000 Taka):
             </label>
-            <input
-                type="number"
-                id="chargeRateInput"
-                value="20"
-                min="0"
-                step="0.01"
-                class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 text-xl mr-2"
-                readonly
-            /><!-- REMOVED INADVERTENT COMMENT HERE -->
+            <span id="displayChargeRate" class="text-2xl font-bold text-blue-700"></span> <!-- Changed to span, removed value and readonly -->
             <button
                 id="changeRateButton"
-                class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-75 transition duration-200"
+                class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-75 transition duration-200 ml-2"
             >
                 Change
             </button>
         </div>
 
+        <!-- General Message Box (kept for general messages) -->
         <div id="messageBox" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
             <div class="bg-white p-6 rounded-lg shadow-lg text-center max-w-xs mx-auto">
                 <p id="messageText" class="text-gray-800 text-lg mb-4"></p>
@@ -143,6 +136,19 @@
                 </button>
             </div>
         </div>
+
+        <!-- New Modal for changing Charge Rate -->
+        <div id="rateModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center max-w-xs mx-auto">
+                <p class="text-gray-800 text-lg mb-4">Enter New Bkash Charge Rate:</p>
+                <input type="number" id="newChargeRateInput" class="w-full p-2 border rounded mb-4 text-center text-xl" value="20" min="0" step="0.01">
+                <div class="flex justify-around">
+                    <button id="saveRateButton" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">Save</button>
+                    <button id="cancelRateButton" class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300">Cancel</button>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
@@ -157,13 +163,18 @@
             const amountInBanglaWords = document.getElementById('amountInBanglaWords');
             const amountInEnglishWords = document.getElementById('amountInEnglishWords');
             const blinkingEmoji = document.getElementById('blinkingEmoji');
-            const chargeRateInput = document.getElementById('chargeRateInput');
+            
+            // New elements for charge rate display and modal
+            const displayChargeRate = document.getElementById('displayChargeRate');
             const changeRateButton = document.getElementById('changeRateButton');
+            const rateModal = document.getElementById('rateModal');
+            const newChargeRateInput = document.getElementById('newChargeRateInput');
+            const saveRateButton = document.getElementById('saveRateButton');
+            const cancelRateButton = document.getElementById('cancelRateButton');
 
-            // Explicitly set the value to ensure it displays initially
-            // This line ensures the default value is always shown on load
-            chargeRateInput.value = "20";
-            let currentChargeRate = parseFloat(chargeRateInput.value);
+            // Initialize currentChargeRate and display it
+            let currentChargeRate = 20; // Default value
+            displayChargeRate.textContent = currentChargeRate;
 
             function showMessageBox(message) {
                 messageText.textContent = message;
@@ -174,6 +185,18 @@
             function hideMessageBox() {
                 messageBox.classList.remove('flex');
                 messageBox.classList.add('hidden');
+            }
+
+            function showRateModal() {
+                newChargeRateInput.value = currentChargeRate; // Set modal input to current rate
+                rateModal.classList.remove('hidden');
+                rateModal.classList.add('flex');
+                newChargeRateInput.focus(); // Focus on the input when modal opens
+            }
+
+            function hideRateModal() {
+                rateModal.classList.remove('flex');
+                rateModal.classList.add('hidden');
             }
 
             function performCalculation() {
@@ -387,33 +410,23 @@
                 performCalculation();
             }
 
-            // Event listener for charge rate input
-            chargeRateInput.addEventListener('input', () => {
-                const newRate = parseFloat(chargeRateInput.value);
+            // Event listener for the Change button
+            changeRateButton.addEventListener('click', showRateModal);
+
+            // Event listeners for Save and Cancel buttons in the rate modal
+            saveRateButton.addEventListener('click', () => {
+                const newRate = parseFloat(newChargeRateInput.value);
                 if (!isNaN(newRate) && newRate >= 0) {
                     currentChargeRate = newRate;
+                    displayChargeRate.textContent = currentChargeRate; // Update the displayed text
+                    hideRateModal();
+                    updateAllDisplays(); // Recalculate and update displays based on new rate
                 } else {
-                    currentChargeRate = 0; // Or a default invalid value handler
+                    showMessageBox("Please enter a valid positive number for the charge rate.");
                 }
-                updateAllDisplays(); // Recalculate and update displays based on new rate
             });
 
-            // Event listener for the Change button
-            changeRateButton.addEventListener('click', () => {
-                const isReadOnly = chargeRateInput.readOnly;
-                chargeRateInput.readOnly = !isReadOnly;
-                changeRateButton.textContent = isReadOnly ? 'Save' : 'Change';
-                changeRateButton.classList.toggle('bg-red-600');
-                changeRateButton.classList.toggle('hover:bg-red-700');
-                changeRateButton.classList.toggle('bg-blue-600'); // Use blue when in 'Save' mode
-                changeRateButton.classList.toggle('hover:bg-blue-700');
-                
-                if (isReadOnly) {
-                    chargeRateInput.focus(); // Focus on the input when it becomes editable
-                } else {
-                    chargeRateInput.blur(); // Remove focus when it becomes read-only
-                }
-            });
+            cancelRateButton.addEventListener('click', hideRateModal);
 
 
             // Update amount in words on keydown for physical keyboard or paste
@@ -468,6 +481,13 @@
             messageBox.addEventListener('click', (event) => {
                 if (event.target === messageBox) {
                     hideMessageBox();
+                }
+            });
+
+            // Close rate modal if clicked outside
+            rateModal.addEventListener('click', (event) => {
+                if (event.target === rateModal) {
+                    hideRateModal();
                 }
             });
         });
