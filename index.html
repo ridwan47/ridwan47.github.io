@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bkash Calculator</title>
+    <title>Bkash Charge Calculator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Link to your Web App Manifest -->
     <link rel="manifest" href="/manifest.json">
@@ -28,14 +28,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: background-color 0.15s;
+            /* Drastically reduced transform transition for quick press effect */
+            transition: background-color 0.15s, transform 0.01s ease-out; 
         }
         .keypad-button:hover {
             background-color: #d1d5db;
         }
         .keypad-button:focus {
             outline: none;
-            box-shadow: 0 0 0 2px rgba(156, 163, 175, 0.75);
+            /* Removed box-shadow to prevent lingering border after click */
+            box-shadow: none; 
         }
         .keypad-button.action-key {
             background-color: #3b82f6;
@@ -51,6 +53,13 @@
         }
         .keypad-button[data-action="calculate"]:hover {
             background-color: #45a049;
+        }
+
+        /* New CSS for button press effect - more distinct background change */
+        .keypad-button.pressed {
+            transform: scale(0.95); /* Slightly shrink on press */
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Inset shadow for press effect */
+            background-color: #c0c2c5; /* Darker shade on press */
         }
 
         /* CSS for blinking emoji */
@@ -258,7 +267,6 @@
                 rateModal.classList.remove('hidden');
                 rateModal.classList.add('flex');
                 newChargeRateInput.classList.add('new-rate-input-cue'); // Add visual cue
-                // Removed: newChargeRateInput.focus(); // No automatic focus
             }
 
             function hideRateModal() {
@@ -433,7 +441,7 @@
 
                 // Handle decimal part
                 if (decimalPart) {
-                    if (words === '') words = 'শূন্য';
+                    if (words === '') words = ' শূন্য'; // Added a space here
                     words += ' দশমিক ';
                     for (let i = 0; i < decimalPart.length; i++) {
                         words += banglaNumbers0To99[parseInt(decimalPart[i], 10)] + ' ';
@@ -527,9 +535,16 @@
 
             // Update amount in words when virtual keypad buttons are clicked
             keypadButtons.forEach(button => {
-                button.addEventListener('click', () => {
+                button.addEventListener('click', (event) => {
                     const value = button.dataset.value;
                     const action = button.dataset.action;
+
+                    // Add a 'pressed' class for visual feedback
+                    button.classList.add('pressed');
+                    // Remove the class immediately after the browser processes the click
+                    requestAnimationFrame(() => {
+                        button.classList.remove('pressed');
+                    });
 
                     // Handle decimal point input
                     if (value === '.' && inputValue.value.includes('.')) {
