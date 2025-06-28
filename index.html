@@ -50,11 +50,23 @@
         .keypad-button[data-action="calculate"]:hover {
             background-color: #45a049;
         }
+
+        /* CSS for blinking emoji */
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .blinking-emoji {
+            animation: blink 8s infinite; /* 4x slower: 2 seconds * 4 = 8 seconds for one full blink cycle */
+        }
     </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full h-auto min-h-[70vh] flex flex-col justify-between text-center">
         <h1 class="text-3xl font-bold text-gray-800 mb-6"></h1>
+        
         <div class="mb-0">
             <input
                 type="number"
@@ -71,14 +83,19 @@
             <div id="amountInEnglishWords" class="text-gray-600 capitalize text-lg px-2"></div>
         </div>
 
-        <!-- Removed mb-6 from resultDisplay -->
-        <div id="resultDisplay" class="text-2xl font-bold text-gray-900 bg-blue-50 py-2 px-2 rounded-lg border border-blue-200 mt-2 mb-0">
-            BKash Charge: <span id="pointsResult">0</span>
+        <!-- Changed BKash Charge window to red, added flex for alignment -->
+        <div id="resultDisplay" class="text-2xl font-bold text-gray-900 bg-red-100 py-2 px-2 rounded-lg border border-red-200 mt-2 mb-0 flex justify-between items-center">
+            <span>BKash Charge:</span>
+            <span id="pointsResult">0</span>
         </div>
 
-        <!-- Removed mt-2 from totalAmountDisplay -->
-        <div id="totalAmountDisplay" class="text-2xl font-bold text-gray-900 bg-blue-50 py-2 px-2 rounded-lg border border-blue-200 mt-0 mb-6">
-            Total amount: <span id="totalAmountResult">0</span>
+        <!-- Changed Total amount window to green, added flex for alignment, emoji separated and controlled by JS -->
+        <div id="totalAmountDisplay" class="text-2xl font-bold text-gray-900 bg-green-100 py-2 px-2 rounded-lg border border-green-200 mt-0 mb-6 flex justify-between items-center">
+            <div class="flex items-center">
+                <span>Total amount:</span>
+                <span id="blinkingEmoji" class="blinking-emoji ml-2 opacity-0">👉</span>
+            </div>
+            <span id="totalAmountResult">0</span>
         </div>
 
         <div class="grid grid-cols-3 gap-1 mb-6 flex-grow">
@@ -94,6 +111,28 @@
             <button class="keypad-button action-key" data-action="clear">C</button>
             <button class="keypad-button" data-value="0">0</button>
             <button class="keypad-button action-key" data-action="backspace">←</button>
+        </div>
+
+        <!-- Moved input for Charge Rate to the bottom and added Change button -->
+        <div class="mt-4 text-left flex items-center">
+            <label for="chargeRateInput" class="block text-gray-700 text-sm font-bold mr-2 whitespace-nowrap">
+                Bkash Charge Rate (per 1000 Taka):
+            </label>
+            <input
+                type="number"
+                id="chargeRateInput"
+                value="20"
+                min="0"
+                step="0.01"
+                class="shadow-sm appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 text-xl mr-2"
+                readonly
+            /><!-- REMOVED INADVERTENT COMMENT HERE -->
+            <button
+                id="changeRateButton"
+                class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-75 transition duration-200"
+            >
+                Change
+            </button>
         </div>
 
         <div id="messageBox" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
@@ -117,6 +156,14 @@
             const keypadButtons = document.querySelectorAll('.keypad-button');
             const amountInBanglaWords = document.getElementById('amountInBanglaWords');
             const amountInEnglishWords = document.getElementById('amountInEnglishWords');
+            const blinkingEmoji = document.getElementById('blinkingEmoji');
+            const chargeRateInput = document.getElementById('chargeRateInput');
+            const changeRateButton = document.getElementById('changeRateButton');
+
+            // Explicitly set the value to ensure it displays initially
+            // This line ensures the default value is always shown on load
+            chargeRateInput.value = "20";
+            let currentChargeRate = parseFloat(chargeRateInput.value);
 
             function showMessageBox(message) {
                 messageText.textContent = message;
@@ -136,7 +183,7 @@
                     totalAmountResult.textContent = '0';
                     return;
                 }
-                const calculatedCharge = (value / 1000) * 20;
+                const calculatedCharge = (value / 1000) * currentChargeRate;
                 pointsResult.textContent = calculatedCharge.toFixed(2);
                 totalAmountResult.textContent = (value + calculatedCharge).toFixed(2);
             }
@@ -313,20 +360,23 @@
                 return words.trim();
             }
 
-            // Function to update the amount in words display for both languages
+            // Function to update the amount in words display for both languages and emoji visibility
             function updateAmountInWords() {
                 const value = inputValue.value;
                 if (value === '') {
                     amountInBanglaWords.textContent = 'বিকাশ চার্জ ক্যালকুলেটর';
                     amountInEnglishWords.textContent = 'Bkash Charge Calculator';
+                    blinkingEmoji.classList.add('opacity-0'); // Hide emoji when input is empty
                 } else {
                     const num = parseFloat(value);
                     if (!isNaN(num) && num >= 0) {
                         amountInBanglaWords.textContent = numberToBanglaWords(num);
                         amountInEnglishWords.textContent = numberToEnglishWords(num);
+                        blinkingEmoji.classList.remove('opacity-0'); // Show emoji when input is not empty
                     } else {
                         amountInBanglaWords.textContent = '';
                         amountInEnglishWords.textContent = ''; // Clear if invalid input
+                        blinkingEmoji.classList.add('opacity-0'); // Hide emoji if invalid input
                     }
                 }
             }
@@ -336,6 +386,35 @@
                 updateAmountInWords();
                 performCalculation();
             }
+
+            // Event listener for charge rate input
+            chargeRateInput.addEventListener('input', () => {
+                const newRate = parseFloat(chargeRateInput.value);
+                if (!isNaN(newRate) && newRate >= 0) {
+                    currentChargeRate = newRate;
+                } else {
+                    currentChargeRate = 0; // Or a default invalid value handler
+                }
+                updateAllDisplays(); // Recalculate and update displays based on new rate
+            });
+
+            // Event listener for the Change button
+            changeRateButton.addEventListener('click', () => {
+                const isReadOnly = chargeRateInput.readOnly;
+                chargeRateInput.readOnly = !isReadOnly;
+                changeRateButton.textContent = isReadOnly ? 'Save' : 'Change';
+                changeRateButton.classList.toggle('bg-red-600');
+                changeRateButton.classList.toggle('hover:bg-red-700');
+                changeRateButton.classList.toggle('bg-blue-600'); // Use blue when in 'Save' mode
+                changeRateButton.classList.toggle('hover:bg-blue-700');
+                
+                if (isReadOnly) {
+                    chargeRateInput.focus(); // Focus on the input when it becomes editable
+                } else {
+                    chargeRateInput.blur(); // Remove focus when it becomes read-only
+                }
+            });
+
 
             // Update amount in words on keydown for physical keyboard or paste
             inputValue.addEventListener('keydown', (event) => {
