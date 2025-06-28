@@ -79,82 +79,86 @@
 
         /* Style for clickable rate options in modal */
         .rate-option {
-            padding: 0.75rem 1.25rem; /* Reinstated consistent padding */
-            margin-bottom: 0.75rem; /* Increased margin */
+            padding: 0.75rem 1.25rem; 
+            margin-bottom: 0.75rem; 
             border-radius: 0.375rem;
             cursor: pointer;
             transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
             text-align: left;
-            font-size: 1.125rem; /* Increased font size for text */
-            font-weight: 600; /* Slightly bolder font weight */
+            font-size: 1.125rem; 
+            font-weight: 600; 
             display: flex;
             align-items: center;
-            justify-content: flex-start; /* Ensures text stays left-aligned */
-            white-space: nowrap; /* Ensure text stays on one line */
-            /* Adjusted text stroke/glow */
-            text-shadow: 0 0 2px rgba(0, 0, 0, 0.8); /* Subtle black glow */
+            justify-content: flex-start; 
+            white-space: nowrap; 
+            text-shadow: 0 0 2px rgba(0, 0, 0, 0.8); 
         }
         .rate-option:hover {
-            transform: translateY(-2px); /* Slightly more lift on hover */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* More prominent shadow on hover */
+            transform: translateY(-2px); 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
         }
 
         /* CSS for zoom and glow effect on charge rate text */
         @keyframes zoomGlow {
             0% { transform: scale(1); text-shadow: none; }
-            50% { transform: scale(1.05); text-shadow: 0 0 8px rgba(0, 123, 255, 0.7); } /* Slightly larger and blue glow */
+            50% { transform: scale(1.05); text-shadow: 0 0 8px rgba(0, 123, 255, 0.7); } 
             100% { transform: scale(1); text-shadow: none; }
         }
 
         .rate-effect {
-            animation: zoomGlow 0.5s ease-out; /* Faster animation duration */
-            animation-delay: 0.4s; /* Reduced delay */
+            animation: zoomGlow 0.5s ease-out; 
+            animation-delay: 0.4s; 
         }
 
         /* Visual cue for editing input in modal */
         .new-rate-input-cue {
-            border: 2px solid #3b82f6; /* A more prominent blue border */
-            background-color: #e0f2fe; /* Light blue background */
+            border: 2px solid #3b82f6; 
+            background-color: #e0f2fe; 
         }
 
         /* New CSS for pulsing effect on total amount window - moved to a class */
         @keyframes pulseBorder {
-            0% { border-color: #d1fae5; box-shadow: 0 0 0px rgba(52, 211, 153, 0.4); } /* Light green border, subtle shadow */
-            50% { border-color: #34d399; box-shadow: 0 0 10px rgba(52, 211, 153, 0.8); } /* Brighter green border, more prominent shadow */
+            0% { border-color: #d1fae5; box-shadow: 0 0 0px rgba(52, 211, 153, 0.4); } 
+            50% { border-color: #34d399; box-shadow: 0 0 10px rgba(52, 211, 153, 0.8); } 
             100% { border-color: #d1fae5; box-shadow: 0 0 0px rgba(52, 211, 153, 0.4); }
         }
 
         .pulsing-border {
-            animation: pulseBorder 3s infinite ease-in-out; /* Apply pulsing effect - made slower (3s) */
+            animation: pulseBorder 3s infinite ease-in-out; 
         }
         
         /* Removed styling for logos inside rate options as they are moved to headers */
         .rate-option img {
-           display: none; /* Hide images in rate options */
+           display: none; 
         }
         /* Style for the text within rate-option to ensure it fills remaining space and aligns */
         .rate-option span {
-            flex-grow: 1; /* Allows the span to take up available space */
-            text-align: left; /* Ensures text inside is left-aligned within its flex-grown space */
+            flex-grow: 1; 
+            text-align: left; 
         }
 
         /* Styling for the new section headers with logos */
         .rate-section-header {
             display: flex;
             align-items: center;
-            justify-content: center; /* Center-justify the content */
-            margin-top: 1.5rem; /* Space above the header */
-            margin-bottom: 0.5rem; /* Space below the header */
-            font-size: 1.25rem; /* Text-xl */
+            justify-content: center; 
+            margin-top: 0; /* Removed margin-top for the first header */
+            margin-bottom: 0.5rem; 
+            font-size: 1.25rem; 
             font-weight: bold;
-            color: #1f2937; /* Dark gray for text */
-            text-align: center; /* Center-justify the text within the header */
+            color: #1f2937; 
+            text-align: center; 
+        }
+
+        /* Specific margin for the Nagad section header to separate from Bkash */
+        .rate-section-header.nagad-header {
+            margin-top: 1.5rem; 
         }
 
         .rate-section-header img {
-            width: 40px; /* Same size as previous logos */
+            width: 40px; 
             height: 40px;
-            margin-right: 8px; /* Space between logo and text */
+            margin-right: 8px; 
             object-fit: contain;
         }
     </style>
@@ -238,7 +242,7 @@
 
         <!-- New Modal for changing Charge Rate -->
         <div id="rateModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
-            <div class="bg-white p-6 rounded-lg shadow-lg text-center max-w-md mx-auto flex flex-col justify-between">
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center max-w-lg mx-auto flex flex-col justify-between relative">
                 <p class="text-gray-800 text-lg mb-4">Enter New Cash Out Rate:</p>
                 <input type="number" id="newChargeRateInput" class="w-full p-2 border rounded mb-4 text-center text-xl" value="18.50" min="0" step="0.01" placeholder="Edit">
                 
@@ -259,7 +263,7 @@
                     </div>
 
                     <!-- Nagad Section -->
-                    <div class="rate-section-header">
+                    <div class="rate-section-header nagad-header">
                         <img src="/nagad%20logo.png" alt="Nagad Logo">
                         <h3>Nagad</h3>
                     </div>
@@ -271,13 +275,13 @@
                     </div>
                 </div>
 
-                <div class="flex justify-around mt-auto mb-2">
+                <div class="flex justify-around mt-auto mb-4"> <!-- Increased mb-0 to mb-4 for more padding -->
                     <button id="saveRateButton" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">Save</button>
                     <button id="cancelRateButton" class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300">Cancel</button>
                 </div>
 
-                <!-- Copyright Notice inside modal, with adjusted styling -->
-                <div class="text-gray-600 text-base mt-0 p-0 absolute bottom-2 left-1/2 -translate-x-1/2">
+                <!-- Copyright Notice inside modal, positioned at absolute bottom -->
+                <div class="text-gray-600 text-base absolute bottom-0 left-1/2 -translate-x-1/2 p-1 whitespace-nowrap">
                     Copyright © Cash Out Calculator by <a href="https://x.com/mdridwan" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">mdridwan</a>
                 </div>
             </div>
@@ -302,7 +306,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const inputValue = document.getElementById('inputValue');
             const pointsResult = document.getElementById('pointsResult');
-            const totalAmountDisplay = document.getElementById('totalAmountDisplay'); // Get the total amount display element
+            const totalAmountDisplay = document.getElementById('totalAmountDisplay'); 
             const totalAmountResult = document.getElementById('totalAmountResult');
             const messageBox = document.getElementById('messageBox');
             const messageText = document.getElementById('messageText');
@@ -316,13 +320,13 @@
             const changeRateButton = document.getElementById('changeRateButton');
             const rateModal = document.getElementById('rateModal');
             const newChargeRateInput = document.getElementById('newChargeRateInput');
-            const saveRateButton = document.getElementById('saveRateButton');
+            const saveRateButton = document = document.getElementById('saveRateButton');
             const cancelRateButton = document.getElementById('cancelRateButton'); 
-            const rateOptions = document.querySelectorAll('.rate-option'); // Get all rate options
+            const rateOptions = document.querySelectorAll('.rate-option'); 
 
             // Initialize currentChargeRate and display it
-            let currentChargeRate = 18.50; // Default value changed to 18.50
-            displayChargeRate.textContent = currentChargeRate.toFixed(2); // Format to 2 decimal places
+            let currentChargeRate = 18.50; 
+            displayChargeRate.textContent = currentChargeRate.toFixed(2); 
 
             function showMessageBox(message) {
                 messageText.textContent = message;
@@ -336,16 +340,16 @@
             }
 
             function showRateModal() {
-                newChargeRateInput.value = currentChargeRate.toFixed(2); // Set modal input to current rate, formatted
+                newChargeRateInput.value = currentChargeRate.toFixed(2); 
                 rateModal.classList.remove('hidden');
                 rateModal.classList.add('flex');
-                newChargeRateInput.classList.add('new-rate-input-cue'); // Add visual cue
+                newChargeRateInput.classList.add('new-rate-input-cue'); 
             }
 
             function hideRateModal() {
                 rateModal.classList.remove('flex');
                 rateModal.classList.add('hidden');
-                newChargeRateInput.classList.remove('new-rate-input-cue'); // Remove visual cue
+                newChargeRateInput.classList.remove('new-rate-input-cue'); 
             }
 
             function performCalculation() {
@@ -437,15 +441,15 @@
                     'ষাট', 'একষট্টি', 'বাষট্টি', 'তেষট্টি', 'চৌষট্টি', 'পঁয়ষট্টি', 'ছেচল্লিশ', 'সাতচল্লিশ', 'আটচল্লিশ', 'ঊনসত্তর',
                     'সত্তর', 'একাত্তর', 'বাহাত্তর', 'তিয়াত্তর', 'চুয়াত্তর', 'পঁচাত্তর', 'ছিয়াত্তর', 'সাতাত্তর', 'আটাত্তর', 'ঊনআশি',
                     'আশি', 'একআশি', 'বিরাশি', 'তিরাশি', 'চুরাশি', 'পঁচাশি', 'ছিয়াশি', 'সাতাশি', 'আটাশি', 'ঊননব্বই',
-                    'নব্বই', 'একানব্বই', 'বিরanব্বই', 'তিরানব্বই', 'চুরানব্বই', 'পঁচানব্বই', 'ছিয়ানব্বই', 'সাতানব্বই', 'আঠানব্বই', 'নিরানব্বই'
+                    'নব্বই', 'একানব্বই', 'বিরানব্বই', 'তিরানব্বই', 'চুরানব্বই', 'পঁচানব্বই', 'ছিয়ানব্বই', 'সাতানব্বই', 'আঠানব্বই', 'নিরানব্বই'
                 ];
 
-                const banglaScales = ['', 'হাজার', 'লাখ', 'কোটি', 'আরব', 'খর্ব', 'নীল', 'পদ্ম', 'শঙ্খ']; // Expanded scales
+                const banglaScales = ['', 'হাজার', 'লাখ', 'কোটি', 'আরব', 'খর্ব', 'নীল', 'পদ্ম', 'শঙ্খ']; 
 
                 // Helper to convert numbers up to 99
                 function convertTwoDigits(n) {
                     if (n === 0) {
-                        return ''; // Return empty string for zero when it's part of a larger number (e.g., 100)
+                        return ''; 
                     }
                     if (n >= 0 && n <= 99) {
                         return banglaNumbers0To99[n];
@@ -461,7 +465,7 @@
 
                     if (hundred > 0) {
                         words += banglaNumbers0To99[hundred] + ' শত';
-                        if (remainder > 0) words += ' '; // Only add space if there's a non-zero remainder
+                        if (remainder > 0) words += ' '; 
                     }
                     words += convertTwoDigits(remainder);
                     return words.trim();
@@ -514,7 +518,7 @@
 
                 // Handle decimal part
                 if (decimalPart) {
-                    if (words === '') words = ' শূন্য'; // Added a space here
+                    if (words === '') words = ' শূন্য'; 
                     words += ' দশমিক ';
                     for (let i = 0; i < decimalPart.length; i++) {
                         words += banglaNumbers0To99[parseInt(decimalPart[i], 10)] + ' ';
@@ -535,11 +539,11 @@
                 } else {
                     const num = parseFloat(value);
                     if (!isNaN(num) && num >= 0) {
-                        amountInBanglaWords.textContent = numberToBanglaWords(num); // Show Bangla conversion
-                        amountInEnglishWords.textContent = numberToEnglishWords(num); // Show English conversion
+                        amountInBanglaWords.textContent = numberToBanglaWords(num); 
+                        amountInEnglishWords.textContent = numberToEnglishWords(num); 
                     } else {
-                        amountInBanglaWords.textContent = ''; // Clear Bangla if invalid
-                        amountInEnglishWords.textContent = ''; // Clear English if invalid
+                        amountInBanglaWords.textContent = ''; 
+                        amountInEnglishWords.textContent = ''; 
                     }
                 }
             }
@@ -559,8 +563,8 @@
 
             // Function to apply zoom and glow effect to the displayChargeRate span
             function applyRateChangeEffect() {
-                displayChargeRate.classList.remove('rate-effect'); // Remove to re-trigger animation
-                void displayChargeRate.offsetWidth; // Trigger reflow
+                displayChargeRate.classList.remove('rate-effect'); 
+                void displayChargeRate.offsetWidth; 
                 displayChargeRate.classList.add('rate-effect');
             }
 
@@ -572,10 +576,10 @@
                 const newRate = parseFloat(newChargeRateInput.value);
                 if (!isNaN(newRate) && newRate >= 0) {
                     currentChargeRate = newRate;
-                    displayChargeRate.textContent = currentChargeRate.toFixed(2); // Update the displayed text, formatted
-                    applyRateChangeEffect(); // Apply the effect
+                    displayChargeRate.textContent = currentChargeRate.toFixed(2); 
+                    applyRateChangeEffect(); 
                     hideRateModal();
-                    updateAllDisplays(); // Recalculate and update displays based on new rate
+                    updateAllDisplays(); 
                 } else {
                     showMessageBox("Please enter a valid positive number for the charge rate.");
                 }
@@ -587,11 +591,11 @@
             rateOptions.forEach(option => {
                 option.addEventListener('click', () => {
                     const selectedRate = parseFloat(option.dataset.rate);
-                    currentChargeRate = selectedRate; // Update current rate
-                    displayChargeRate.textContent = currentChargeRate.toFixed(2); // Update displayed text, formatted
-                    applyRateChangeEffect(); // Apply the effect
-                    hideRateModal(); // Close modal
-                    updateAllDisplays(); // Recalculate and update main displays
+                    currentChargeRate = selectedRate; 
+                    displayChargeRate.textContent = currentChargeRate.toFixed(2); 
+                    applyRateChangeEffect(); 
+                    hideRateModal(); 
+                    updateAllDisplays(); 
                 });
             });
 
@@ -599,15 +603,15 @@
             inputValue.addEventListener('keydown', (event) => {
                 if (event.key === 'Enter') {
                     event.preventDefault();
-                    // If physical Enter, perform calculation and possibly show error if invalid
+                    
                     const value = parseFloat(inputValue.value);
                     if (isNaN(value) || value < 0) {
                          showMessageBox("Please enter a valid positive number.");
                     }
                     performCalculation();
                 }
-                // Delay to allow input value to update before converting
-                setTimeout(updateAllDisplays, 0); // Call updateAllDisplays here
+                
+                setTimeout(updateAllDisplays, 0); 
             });
 
             // Update amount in words when virtual keypad buttons are clicked
@@ -616,39 +620,39 @@
                     const value = button.dataset.value;
                     const action = button.dataset.action;
 
-                    // Add a 'pressed' class for visual feedback
+                    
                     button.classList.add('pressed');
-                    // Removed the explicit timeout and used requestAnimationFrame for immediate removal
+                    
                     requestAnimationFrame(() => {
                         button.classList.remove('pressed');
                     });
 
                     // Handle decimal point input
                     if (value === '.' && inputValue.value.includes('.')) {
-                        // Prevent multiple decimal points
+                        
                         return;
                     }
                     // Allow "0" followed by decimal or other numbers, but prevent "00"
                     if (value === '0' && inputValue.value === '0' && inputValue.value.indexOf('.') === -1) {
-                        // Prevents leading zeros like "00", "000" but allows "0.5"
+                        
                         return;
                     }
                     if (value === '.' && inputValue.value === '') {
-                         // Start with "0." if decimal is pressed first
+                         
                          inputValue.value = '0.';
-                    } else if (action === 'clear') { // Handle the new Clear key
+                    } else if (action === 'clear') { 
                         inputValue.value = '';
                     } else if (value) {
                         inputValue.value += value;
                     } else if (action === 'backspace') {
                         inputValue.value = inputValue.value.slice(0, -1);
                     }
-                    updateAllDisplays(); // Update all displays after keypad interaction
+                    updateAllDisplays(); 
                 });
             });
 
             // Initial update in case there's a pre-filled value or on load
-            updateAllDisplays(); // Call once on load to set initial state
+            updateAllDisplays(); 
 
             closeMessageBox.addEventListener('click', hideMessageBox);
             messageBox.addEventListener('click', (event) => {
