@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bkash Charge Calculator</title>
+    <title>Bkash Calculator</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.png" type="image/png">
     <!-- Link to your Web App Manifest -->
     <link rel="manifest" href="/manifest.json">
     <style>
@@ -123,13 +125,14 @@
         }
 
         .pulsing-border {
-            animation: pulseBorder 2s infinite ease-in-out; /* Apply pulsing effect */
+            animation: pulseBorder 3s infinite ease-in-out; /* Apply pulsing effect - made slower (3s) */
         }
     </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full h-auto min-h-[70vh] flex flex-col justify-between text-center">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6"></h1>
+        <!-- Removed mb-6 from h1 to reduce space above input -->
+        <h1 class="text-3xl font-bold text-gray-800"></h1> 
         
         <div class="mb-0">
             <input
@@ -149,13 +152,13 @@
         </div>
 
         <!-- Changed BKash Charge window to red, added flex for alignment -->
-        <div id="resultDisplay" class="text-2xl font-bold text-gray-900 bg-red-100 py-2 px-2 rounded-lg border border-red-200 mt-2 mb-2 flex justify-between items-center">
+        <div id="resultDisplay" class="text-2xl font-bold text-gray-900 bg-red-100 py-2 px-2 rounded-lg border border-red-200 mt-2 mb-1 flex justify-between items-center">
             <span>BKash Charge:</span>
             <span id="pointsResult">0</span>
         </div>
 
         <!-- Changed Total amount window to green, added flex for alignment, emoji separated and controlled by JS -->
-        <div id="totalAmountDisplay" class="text-2xl font-bold text-gray-900 bg-green-100 py-2 px-2 rounded-lg border border-green-200 mt-2 mb-6 flex justify-between items-center">
+        <div id="totalAmountDisplay" class="text-2xl font-bold text-gray-900 bg-green-100 py-2 px-2 rounded-lg border border-green-200 mt-1 mb-2 flex justify-between items-center">
             <div class="flex items-center">
                 <span>Total amount:</span>
                 <!-- Emoji removed completely -->
@@ -250,8 +253,7 @@
             const keypadButtons = document.querySelectorAll('.keypad-button');
             const amountInBanglaWords = document.getElementById('amountInBanglaWords');
             const amountInEnglishWords = document.getElementById('amountInEnglishWords');
-            // const blinkingEmoji = document.getElementById('blinkingEmoji'); // Emoji element removed from HTML
-
+            
             // New elements for charge rate display and modal
             const displayChargeRate = document.getElementById('displayChargeRate');
             const changeRateButton = document.getElementById('changeRateButton');
@@ -373,12 +375,12 @@
                     'দশ', 'এগারো', 'বারো', 'তেরো', 'চৌদ্দ', 'পনেরো', 'ষোলো', 'সতেরো', 'আঠারো', 'উনিশ',
                     'বিশ', 'একুশ', 'বাইশ', 'তেইশ', 'চব্বিশ', 'পঁচিশ', 'ছাব্বিশ', 'সাতাশ', 'আটাশ', 'ঊনত্রিশ',
                     'ত্রিশ', 'একত্রিশ', 'বত্রিশ', 'তেত্রিশ', 'চৌত্রিশ', 'পঁয়ত্রিশ', 'ছত্রিশ', 'সাঁইত্রিশ', 'আটত্রিশ', 'ঊনচল্লিশ',
-                    'চল্লিশ', 'একচল্লিশ', 'বিয়াল্লিশ', 'তেতাল্লিশ', 'চুয়াল্লিশ', 'পঁয়তাল্লিশ', 'ছেচল্লিশ', 'সাতচল্লিশ', 'আটচল্লিশ', 'ঊনপঞ্চাশ',
+                    'চল্লিশ', 'একচল্লিশ', 'বিয়াল্লিশ', 'teতাল্লিশ', 'চুয়াল্লিশ', 'পঁয়তাল্লিশ', 'ছেচল্লিশ', 'সাতচল্লিশ', 'আটচল্লিশ', 'ঊনপঞ্চাশ',
                     'পঞ্চাশ', 'একান্ন', 'বায়ান্ন', 'তিপ্পান্ন', 'চুয়ান্ন', 'পঞ্চান্ন', 'ছাপ্পান্ন', 'সাতান্ন', 'আটান্ন', 'ঊনষাট',
-                    'ষাট', 'একষট্টি', 'বাষট্টি', 'তেষট্টি', 'চৌষট্টি', 'পঁয়ষট্টি', 'ছেচল্লিশ', 'সাতচল্লিশ', 'আটচল্লিশ', 'ঊনসত্তর',
+                    'ষাট', 'একষট্টি', 'বাষট্টি', 'তেষট্টি', 'চৌষট্টি', 'পঁয়ষট্টি', 'ছেষট্টি', 'সাতষট্টি', 'আটষট্টি', 'ঊনসত্তর',
                     'সত্তর', 'একাত্তর', 'বাহাত্তর', 'তিয়াত্তর', 'চুয়াত্তর', 'পঁচাত্তর', 'ছিয়াত্তর', 'সাতাত্তর', 'আটাত্তর', 'ঊনআশি',
                     'আশি', 'একআশি', 'বিরাশি', 'তিরাশি', 'চুরাশি', 'পঁচাশি', 'ছিয়াশি', 'সাতাশি', 'আটাশি', 'ঊননব্বই',
-                    'নব্বই', 'একানব্বই', 'বিরানব্বই', 'তিরানব্বই', 'চুরানব্বই', 'পঁচানব্বই', 'ছিয়ানব্বই', 'সাতানব্বই', 'আঠানব্বই', 'নিরানব্বই'
+                    'নব্বই', 'একানব্বai', 'বিরানব্বai', 'তিরানব্বai', 'চুরানব্বai', 'পঁচানব্বai', 'ছিয়ানব্বai', 'সাতানব্বai', 'আঠানব্বai', 'নিরানব্বai'
                 ];
 
                 const banglaScales = ['', 'হাজার', 'লাখ', 'কোটি', 'আরব', 'খর্ব', 'নীল', 'পদ্ম', 'শঙ্খ']; // Expanded scales
@@ -465,25 +467,22 @@
             }
 
 
-            // Function to update the amount in words display for both languages and emoji visibility
+            // Function to update the amount in words display for both languages
             function updateAmountInWords() {
                 const value = inputValue.value;
                 if (value === '') {
-                    // Show English text only
+                    // Show English text only when input is empty
                     amountInEnglishWords.textContent = 'Bkash Charge Calculator by Ridwan';
                     // Ensure Bangla div is cleared when input is empty
                     amountInBanglaWords.textContent = '';
-                    // blinkingEmoji.classList.add('opacity-0'); // Emoji element removed
                 } else {
                     const num = parseFloat(value);
                     if (!isNaN(num) && num >= 0) {
                         amountInBanglaWords.textContent = numberToBanglaWords(num); // Show Bangla conversion
                         amountInEnglishWords.textContent = numberToEnglishWords(num); // Show English conversion
-                        // blinkingEmoji.classList.remove('opacity-0'); // Emoji element removed
                     } else {
                         amountInBanglaWords.textContent = ''; // Clear Bangla if invalid
                         amountInEnglishWords.textContent = ''; // Clear English if invalid
-                        // blinkingEmoji.classList.add('opacity-0'); // Emoji element removed
                     }
                 }
             }
