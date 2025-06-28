@@ -64,22 +64,28 @@
 
         /* Style for clickable rate options in modal */
         .rate-option {
-            /* Removed background-color and border to allow Tailwind classes to take precedence */
-            padding: 0.5rem 1rem;
-            margin-bottom: 0.5rem;
+            padding: 0.75rem 1.25rem; /* Increased padding to make buttons bigger */
+            margin-bottom: 0.75rem; /* Increased margin */
             border-radius: 0.375rem;
             cursor: pointer;
             transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
             text-align: left;
-            font-size: 0.9rem;
-            font-weight: 500; /* Medium font weight for better readability */
-            display: flex; /* Ensure it behaves like a flex container for content */
-            align-items: center; /* Vertically align text */
-            justify-content: space-between; /* Space out text and potential other elements */
+            font-size: 1.125rem; /* Increased font size for text */
+            font-weight: 600; /* Slightly bolder font weight */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            white-space: nowrap; /* Ensure text stays on one line */
+            /* Adjusted text stroke and removed shadow */
+            text-shadow:
+                -2px -2px 0 #000,
+                 2px -2px 0 #000,
+                -2px 2px 0 #000,
+                 2px 2px 0 #000; /* Bigger black stroke */
         }
         .rate-option:hover {
-            transform: translateY(-1px); /* Slight lift on hover */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
+            transform: translateY(-2px); /* Slightly more lift on hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* More prominent shadow on hover */
         }
 
         /* CSS for zoom and glow effect on charge rate text */
@@ -178,15 +184,15 @@
 
         <!-- New Modal for changing Charge Rate -->
         <div id="rateModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
-            <div class="bg-white p-6 rounded-lg shadow-lg text-center max-w-xs mx-auto">
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center max-w-sm mx-auto">
                 <p class="text-gray-800 text-lg mb-4">Enter New Bkash Charge Rate:</p>
-                <input type="number" id="newChargeRateInput" class="w-full p-2 border rounded mb-4 text-center text-xl" value="18.50" min="0" step="0.01">
+                <input type="number" id="newChargeRateInput" class="w-full p-2 border rounded mb-4 text-center text-xl" value="18.50" min="0" step="0.01" placeholder="Edit">
                 
                 <div class="mb-4">
-                    <!-- Updated with specific Tailwind colors -->
+                    <!-- Updated with specific Tailwind colors and corrected text -->
                     <div class="rate-option bg-green-500 text-white hover:bg-green-600" data-rate="18.50">Regular Cash out rate: 18.50</div>
-                    <div class="rate-option bg-pink-500 text-white hover:bg-pink-600" data-rate="14.50">Prito Agent Cash out rate: 14.50</div>
-                    <div class="rate-option bg-red-500 text-white hover:bg-red-600" data-rate="20.00">Old Charge Rate: 20.00</div>
+                    <div class="rate-option bg-pink-500 text-white hover:bg-pink-600" data-rate="14.50">Priyo Agent Cash out rate: 14.50</div>
+                    <div class="rate-option bg-red-500 text-white hover:bg-red-600" data-rate="20.00">Old Cash out rate: 20.00</div>
                 </div>
 
                 <div class="flex justify-around">
