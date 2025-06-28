@@ -62,7 +62,7 @@
             background-color: #c0c2c5; /* Darker shade on press */
         }
 
-        /* CSS for blinking emoji - made faster */
+        /* CSS for blinking emoji - This section is no longer directly used for emoji, but kept if opacity is used elsewhere */
         @keyframes blink {
             0% { opacity: 1; }
             50% { opacity: 0; }
@@ -70,8 +70,8 @@
         }
 
         .blinking-emoji {
-            animation: blink 4s infinite; /* Faster blinking: 4 seconds for one full blink cycle */
-            /* Initial state controlled by JS to be opaque until input is entered */
+            /* This class is now effectively unused since the emoji element is removed */
+            /* but if it were still present, its opacity would be controlled by JS */
             opacity: 0; 
         }
 
@@ -149,16 +149,16 @@
         </div>
 
         <!-- Changed BKash Charge window to red, added flex for alignment -->
-        <div id="resultDisplay" class="text-2xl font-bold text-gray-900 bg-red-100 py-2 px-2 rounded-lg border border-red-200 mt-2 mb-0 flex justify-between items-center">
+        <div id="resultDisplay" class="text-2xl font-bold text-gray-900 bg-red-100 py-2 px-2 rounded-lg border border-red-200 mt-2 mb-2 flex justify-between items-center">
             <span>BKash Charge:</span>
             <span id="pointsResult">0</span>
         </div>
 
         <!-- Changed Total amount window to green, added flex for alignment, emoji separated and controlled by JS -->
-        <div id="totalAmountDisplay" class="text-2xl font-bold text-gray-900 bg-green-100 py-2 px-2 rounded-lg border border-green-200 mt-0 mb-6 flex justify-between items-center">
+        <div id="totalAmountDisplay" class="text-2xl font-bold text-gray-900 bg-green-100 py-2 px-2 rounded-lg border border-green-200 mt-2 mb-6 flex justify-between items-center">
             <div class="flex items-center">
                 <span>Total amount:</span>
-                <span id="blinkingEmoji" class="blinking-emoji ml-2">👉</span>
+                <!-- Emoji removed completely -->
             </div>
             <span id="totalAmountResult">0</span>
         </div>
@@ -250,8 +250,8 @@
             const keypadButtons = document.querySelectorAll('.keypad-button');
             const amountInBanglaWords = document.getElementById('amountInBanglaWords');
             const amountInEnglishWords = document.getElementById('amountInEnglishWords');
-            const blinkingEmoji = document.getElementById('blinkingEmoji');
-            
+            // const blinkingEmoji = document.getElementById('blinkingEmoji'); // Emoji element removed from HTML
+
             // New elements for charge rate display and modal
             const displayChargeRate = document.getElementById('displayChargeRate');
             const changeRateButton = document.getElementById('changeRateButton');
@@ -473,17 +473,17 @@
                     amountInEnglishWords.textContent = 'Bkash Charge Calculator by Ridwan';
                     // Ensure Bangla div is cleared when input is empty
                     amountInBanglaWords.textContent = '';
-                    blinkingEmoji.classList.add('opacity-0'); // Hide emoji when input is empty
+                    // blinkingEmoji.classList.add('opacity-0'); // Emoji element removed
                 } else {
                     const num = parseFloat(value);
                     if (!isNaN(num) && num >= 0) {
                         amountInBanglaWords.textContent = numberToBanglaWords(num); // Show Bangla conversion
                         amountInEnglishWords.textContent = numberToEnglishWords(num); // Show English conversion
-                        blinkingEmoji.classList.remove('opacity-0'); // Show emoji when input is not empty
+                        // blinkingEmoji.classList.remove('opacity-0'); // Emoji element removed
                     } else {
                         amountInBanglaWords.textContent = ''; // Clear Bangla if invalid
                         amountInEnglishWords.textContent = ''; // Clear English if invalid
-                        blinkingEmoji.classList.add('opacity-0'); // Hide emoji if invalid input
+                        // blinkingEmoji.classList.add('opacity-0'); // Emoji element removed
                     }
                 }
             }
