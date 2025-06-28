@@ -1,36 +1,162 @@
-<ul>
-<li><a href='http://www.moviemela.live/'>http://www.moviemela.live/</a></li>
-<li></li>
-<li><a href='http://fs.moviemela.live/Animation/'>http://fs.moviemela.live/Animation/</a></li>
-<li></li>
-<li><a href='http://fs.moviemela.live/tv%20show/'>http://fs.moviemela.live/tv%20show/</a></li>
-<li></li>
-<li><a href='http://fs.moviemela.live/english1/2009/'>http://fs.moviemela.live/english1/2009/</a></li>
-<li><a href='http://fs.moviemela.live/english1/2010/'>http://fs.moviemela.live/english1/2010/</a></li>
-<li><a href='http://fs.moviemela.live/english1/2011/'>http://fs.moviemela.live/english1/2011/</a></li>
-<li><a href='http://fs.moviemela.live/english1/2012/'>http://fs.moviemela.live/english1/2012/</a></li>
-<li><a href='http://fs.moviemela.live/english1/2013/'>http://fs.moviemela.live/english1/2013/</a></li>
-<li><a href='http://fs.moviemela.live/english2/2014/'>http://fs.moviemela.live/english2/2014/</a></li>
-<li><a href='http://fs.moviemela.live/english2/2015/'>http://fs.moviemela.live/english2/2015/</a></li>
-<li><a href='http://fs.moviemela.live/english2/2016/'>http://fs.moviemela.live/english2/2016/</a></li>
-<li><a href='http://fs.moviemela.live/english2/2017/'>http://fs.moviemela.live/english2/2017/</a></li>
-<li><a href='http://fs.moviemela.live/english2/2018/'>http://fs.moviemela.live/english2/2018/</a></li>
-<li></li>
-<li><a href='http://fs.moviemela.live/bangla/'>http://fs.moviemela.live/bangla/</a></li>
-<li></li>
-<li><a href='http://fs.moviemela.live/hindi/2009/'>http://fs.moviemela.live/hindi/2009/</a></li>
-<li><a href='http://fs.moviemela.live/hindi/2010/'>http://fs.moviemela.live/hindi/2010/</a></li>
-<li><a href='http://fs.moviemela.live/hindi/2011/'>http://fs.moviemela.live/hindi/2011/</a></li>
-<li><a href='http://fs.moviemela.live/hindi/2012/'>http://fs.moviemela.live/hindi/2012/</a></li>
-<li><a href='http://fs.moviemela.live/hindi/2013/'>http://fs.moviemela.live/hindi/2013/</a></li>
-<li><a href='http://fs.moviemela.live/hindi/2014/'>http://fs.moviemela.live/hindi/2014/</a></li>
-<li><a href='http://fs.moviemela.live/hindi/2015/'>http://fs.moviemela.live/hindi/2015/</a></li>
-<li><a href='http://fs.moviemela.live/hindi/2016/'>http://fs.moviemela.live/hindi/2016/</a></li>
-<li><a href='http://fs.moviemela.live/hindi/2017/'>http://fs.moviemela.live/hindi/2017/</a></li>
-<li><a href='http://fs.moviemela.live/hindi/2018/'>http://fs.moviemela.live/hindi/2018/</a></li>
-<li></li>
-<li><a href='http://fs.moviemela.live/games/'>http://fs.moviemela.live/games/</a></li>
-<li><a href='http://fs.moviemela.live/games2/'>http://fs.moviemela.live/games2/</a></li>
-<li></li>
-<li><a href='http://fs.moviemela.live/software/'>http://fs.moviemela.live/software/</a></li>
-</ul>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bkash Charge Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f2f5;
+        }
+        .keypad-button {
+            font-size: 2.25rem;
+            padding: 0.25rem;
+            background-color: #e5e7eb;
+            border-radius: 0.5rem;
+            color: #1f2937;
+            font-weight: bold;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.15s;
+        }
+        .keypad-button:hover {
+            background-color: #d1d5db;
+        }
+        .keypad-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(156, 163, 175, 0.75);
+        }
+        .keypad-button.action-key {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .keypad-button.action-key:hover {
+            background-color: #2563eb;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-xl max-w-md w-full h-auto min-h-[70vh] flex flex-col justify-between text-center">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Bkash Charge Calculator</h1>
+
+        <div class="mb-6">
+            <input
+                type="number"
+                id="inputValue"
+                placeholder="Enter Taka"
+                class="shadow-sm appearance-none border rounded-lg w-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 text-2xl text-center"
+                min="0"
+                readonly
+            />
+        </div>
+
+        <div class="grid grid-cols-3 gap-1 mb-6 flex-grow">
+            <button class="keypad-button" data-value="1">1</button>
+            <button class="keypad-button" data-value="2">2</button>
+            <button class="keypad-button" data-value="3">3</button>
+            <button class="keypad-button" data-value="4">4</button>
+            <button class="keypad-button" data-value="5">5</button>
+            <button class="keypad-button" data-value="6">6</button>
+            <button class="keypad-button" data-value="7">7</button>
+            <button class="keypad-button" data-value="8">8</button>
+            <button class="keypad-button" data-value="9">9</button>
+            <button class="keypad-button action-key" data-action="clear">C</button>
+            <button class="keypad-button" data-value="0">0</button>
+            <button class="keypad-button action-key" data-action="backspace">←</button>
+        </div>
+
+        <button
+            id="calculateButton"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-200 w-full mb-6 text-xl"
+        >
+            Calculate Charge
+        </button>
+
+        <div id="resultDisplay" class="text-3xl font-bold text-gray-900 bg-blue-50 p-6 rounded-lg border border-blue-200">
+            Send amount: <span id="pointsResult">0</span>
+        </div>
+
+        <div id="messageBox" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center max-w-xs mx-auto">
+                <p id="messageText" class="text-gray-800 text-lg mb-4"></p>
+                <button id="closeMessageBox" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputValue = document.getElementById('inputValue');
+            const calculateButton = document.getElementById('calculateButton');
+            const pointsResult = document.getElementById('pointsResult');
+            const messageBox = document.getElementById('messageBox');
+            const messageText = document.getElementById('messageText');
+            const closeMessageBox = document.getElementById('closeMessageBox');
+            const keypadButtons = document.querySelectorAll('.keypad-button');
+
+            function showMessageBox(message) {
+                messageText.textContent = message;
+                messageBox.classList.remove('hidden');
+                messageBox.classList.add('flex');
+            }
+
+            function hideMessageBox() {
+                messageBox.classList.remove('flex');
+                messageBox.classList.add('hidden');
+            }
+
+            function performCalculation() {
+                const value = parseFloat(inputValue.value);
+                if (isNaN(value) || value < 0) {
+                    showMessageBox("Please enter a valid positive number.");
+                    pointsResult.textContent = '0';
+                    return;
+                }
+                const calculatedCharge = (value / 1000) * 20;
+                pointsResult.textContent = calculatedCharge.toFixed(2);
+            }
+
+            calculateButton.addEventListener('click', performCalculation);
+
+            inputValue.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    performCalculation();
+                }
+            });
+
+            keypadButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const value = button.dataset.value;
+                    const action = button.dataset.action;
+
+                    if (value) {
+                        inputValue.value += value;
+                    } else if (action === 'clear') {
+                        inputValue.value = '';
+                    } else if (action === 'backspace') {
+                        inputValue.value = inputValue.value.slice(0, -1);
+                    }
+                });
+            });
+
+            closeMessageBox.addEventListener('click', hideMessageBox);
+            messageBox.addEventListener('click', (event) => {
+                if (event.target === messageBox) {
+                    hideMessageBox();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
