@@ -89,7 +89,8 @@
             font-weight: 600; /* Slightly bolder font weight */
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            /* Now explicitly using flex-start to keep logo and text left-aligned */
+            justify-content: flex-start; 
             white-space: nowrap; /* Ensure text stays on one line */
             /* Adjusted text stroke/glow */
             text-shadow: 0 0 2px rgba(0, 0, 0, 0.8); /* Subtle black glow */
@@ -135,6 +136,13 @@
             margin-right: 8px; /* mr-2 */
             border-radius: 4px; /* Optional: slight rounding for logos */
             object-fit: contain; /* Ensure logo fits without cropping */
+            /* Added white glow and drop shadow */
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+        }
+        /* Style for the text within rate-option to ensure it fills remaining space and aligns */
+        .rate-option span {
+            flex-grow: 1; /* Allows the span to take up available space */
+            text-align: left; /* Ensures text inside is left-aligned within its flex-grown space */
         }
     </style>
 </head>
@@ -224,19 +232,24 @@
                 <div class="mb-4">
                     <!-- Updated with specific Tailwind colors and corrected text, and logos -->
                     <div class="rate-option bg-green-500 text-white hover:bg-green-600" data-rate="18.50">
-                        <img src="/bkash%20logo%20192.png" alt="Bkash Logo" class="w-6 h-6 mr-2">Regular Cash out rate: 18.50
+                        <img src="/bkash%20logo%20192.png" alt="Bkash Logo" class="w-6 h-6 mr-2">
+                        <span>Regular Cash out rate: 18.50</span>
                     </div>
                     <div class="rate-option bg-pink-500 text-white hover:bg-pink-600" data-rate="14.50">
-                        <img src="/bkash%20logo%20192.png" alt="Bkash Logo" class="w-6 h-6 mr-2">Priyo Agent Cash out rate: 14.50
+                        <img src="/bkash%20logo%20192.png" alt="Bkash Logo" class="w-6 h-6 mr-2">
+                        <span>Priyo Agent Cash out rate: 14.50</span>
                     </div>
                     <div class="rate-option bg-red-500 text-white hover:bg-red-600" data-rate="20.00">
-                        <img src="/bkash%20logo%20192.png" alt="Bkash Logo" class="w-6 h-6 mr-2">Old Cash out rate: 20.00
+                        <img src="/bkash%20logo%20192.png" alt="Bkash Logo" class="w-6 h-6 mr-2">
+                        <span>Old Cash out rate: 20.00</span>
                     </div>
                     <div class="rate-option bg-orange-500 text-white hover:bg-orange-600" data-rate="12.50">
-                        <img src="/nagad%20logo%20192.png" alt="Nagad Logo" class="w-6 h-6 mr-2">Nagad Regular App: 12.50
+                        <img src="/nagad%20logo%20192.png" alt="Nagad Logo" class="w-6 h-6 mr-2">
+                        <span>Nagad Regular App: 12.50</span>
                     </div>
                     <div class="rate-option bg-purple-500 text-white hover:bg-purple-600" data-rate="15.00">
-                        <img src="/nagad%20logo%20192.png" alt="Nagad Logo" class="w-6 h-6 mr-2">Nagad Islamic App: 15.00
+                        <img src="/nagad%20logo%20192.png" alt="Nagad Logo" class="w-6 h-6 mr-2">
+                        <span>Nagad Islamic App: 15.00</span>
                     </div>
                 </div>
 
@@ -401,7 +414,7 @@
                     'ষাট', 'একষট্টি', 'বাষট্টি', 'তেষট্টি', 'চৌষট্টি', 'পঁয়ষট্টি', 'ছেচল্লিশ', 'সাতচল্লিশ', 'আটচল্লিশ', 'ঊনসত্তর',
                     'সত্তর', 'একাত্তর', 'বাহাত্তর', 'তিয়াত্তর', 'চুয়াত্তর', 'পঁচাত্তর', 'ছিয়াত্তর', 'সাতাত্তর', 'আটাত্তর', 'ঊনআশি',
                     'আশি', 'একআশি', 'বিরাশি', 'তিরাশি', 'চুরাশি', 'পঁচাশি', 'ছিয়াশি', 'সাতাশি', 'আটাশি', 'ঊননব্বই',
-                    'নব্বই', 'একানব্বই', 'বিরanব্বই', 'তিরানব্বai', 'চুরানব্বai', 'পঁচানব্বai', 'ছিয়ানব্বই', 'সাতানব্বই', 'আঠানব্বই', 'নিরানব্বই'
+                    'নব্বই', 'একানব্বই', 'বিরানব্বই', 'তিরানব্বই', 'চুরানব্বই', 'পঁচানব্বই', 'ছিয়ানব্বই', 'সাতানব্বই', 'আঠানব্বই', 'নিরানব্বই'
                 ];
 
                 const banglaScales = ['', 'হাজার', 'লাখ', 'কোটি', 'আরব', 'খর্ব', 'নীল', 'পদ্ম', 'শঙ্খ']; // Expanded scales
