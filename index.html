@@ -41,6 +41,14 @@
         .keypad-button.action-key:hover {
             background-color: #2563eb;
         }
+        /* Specific style for the new Calculate/Enter key on keypad */
+        .keypad-button[data-action="calculate"] {
+            background-color: #4CAF50; /* A distinct green color for calculation */
+            color: white;
+        }
+        .keypad-button[data-action="calculate"]:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
@@ -63,6 +71,11 @@
                 <!-- English display below Bangla -->
                 <div id="amountInEnglishWords" class="text-gray-600 capitalize"></div>
             </div>
+
+            <!-- Moved "Send amount:" window to the top and made it smaller -->
+            <div id="resultDisplay" class="text-2xl font-bold text-gray-900 bg-blue-50 p-4 rounded-lg border border-blue-200 mt-4">
+                Send amount: <span id="pointsResult">0</span>
+            </div>
         </div>
 
         <div class="grid grid-cols-3 gap-1 mb-6 flex-grow">
@@ -75,21 +88,20 @@
             <button class="keypad-button" data-value="7">7</button>
             <button class="keypad-button" data-value="8">8</button>
             <button class="keypad-button" data-value="9">9</button>
-            <button class="keypad-button action-key" data-action="clear">C</button>
-            <button class="keypad-button" data-value="0">0</button>
+            <!-- Backspace key remains here -->
             <button class="keypad-button action-key" data-action="backspace">←</button>
+            <button class="keypad-button" data-value="0">0</button>
+            <!-- Changed C to Enter/Return key and functionality -->
+            <button class="keypad-button action-key" data-action="calculate">⏎</button>
         </div>
 
-        <button
+        <!-- Removed the dedicated Calculate Charge button -->
+        <!-- <button
             id="calculateButton"
             class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-200 w-full mb-6 text-xl"
         >
             Calculate Charge
-        </button>
-
-        <div id="resultDisplay" class="text-3xl font-bold text-gray-900 bg-blue-50 p-6 rounded-lg border border-blue-200">
-            Send amount: <span id="pointsResult">0</span>
-        </div>
+        </button> -->
 
         <div id="messageBox" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
             <div class="bg-white p-6 rounded-lg shadow-lg text-center max-w-xs mx-auto">
@@ -103,8 +115,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Removed calculateButton from const declarations as it's removed from HTML
             const inputValue = document.getElementById('inputValue');
-            const calculateButton = document.getElementById('calculateButton');
             const pointsResult = document.getElementById('pointsResult');
             const messageBox = document.getElementById('messageBox');
             const messageText = document.getElementById('messageText');
@@ -325,7 +337,8 @@
                 }
             }
 
-            calculateButton.addEventListener('click', performCalculation);
+            // Removed calculateButton.addEventListener as it's removed from HTML
+            // calculateButton.addEventListener('click', performCalculation);
 
             // Update amount in words on keydown for physical keyboard or paste
             inputValue.addEventListener('keydown', (event) => {
@@ -350,14 +363,17 @@
                     }
                     // Allow "0" followed by decimal or other numbers, but prevent "00"
                     if (value === '0' && inputValue.value === '0') {
+                        // Prevent "00" or "000" etc.
                         return;
                     }
                     if (value === '.' && inputValue.value === '') {
                          // Start with "0." if decimal is pressed first
                          inputValue.value = '0.';
+                    } else if (action === 'calculate') { // Handle the Calculate key
+                        performCalculation();
                     } else if (value) {
                         inputValue.value += value;
-                    } else if (action === 'clear') {
+                    } else if (action === 'clear') { // Removed clear from HTML but keeping JS in case of future re-addition
                         inputValue.value = '';
                     } else if (action === 'backspace') {
                         inputValue.value = inputValue.value.slice(0, -1);
