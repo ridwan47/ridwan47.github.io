@@ -129,15 +129,14 @@
             animation: pulseBorder 3s infinite ease-in-out; /* Apply pulsing effect - made slower (3s) */
         }
         
-        /* Styling for the logos inside rate options */
+        /* Styling for the logos inside rate options - removed filter for glow/shadow */
         .rate-option img {
             width: 24px; /* w-6 */
             height: 24px; /* h-6 */
             margin-right: 8px; /* mr-2 */
             border-radius: 4px; /* Optional: slight rounding for logos */
             object-fit: contain; /* Ensure logo fits without cropping */
-            /* Added white glow and drop shadow */
-            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+            /* Removed white glow and drop shadow: filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8)); */
         }
         /* Style for the text within rate-option to ensure it fills remaining space and aligns */
         .rate-option span {
@@ -232,23 +231,23 @@
                 <div class="mb-4">
                     <!-- Updated with specific Tailwind colors and corrected text, and logos -->
                     <div class="rate-option bg-green-500 text-white hover:bg-green-600" data-rate="18.50">
-                        <img src="/bkash%20logo%20192.png" alt="Bkash Logo" class="w-6 h-6 mr-2">
+                        <img src="/bkash%20logo.png" alt="Bkash Logo" class="w-6 h-6 mr-2">
                         <span>Regular Cash out rate: 18.50</span>
                     </div>
                     <div class="rate-option bg-pink-500 text-white hover:bg-pink-600" data-rate="14.50">
-                        <img src="/bkash%20logo%20192.png" alt="Bkash Logo" class="w-6 h-6 mr-2">
+                        <img src="/bkash%20logo.png" alt="Bkash Logo" class="w-6 h-6 mr-2">
                         <span>Priyo Agent Cash out rate: 14.50</span>
                     </div>
                     <div class="rate-option bg-red-500 text-white hover:bg-red-600" data-rate="20.00">
-                        <img src="/bkash%20logo%20192.png" alt="Bkash Logo" class="w-6 h-6 mr-2">
+                        <img src="/bkash%20logo.png" alt="Bkash Logo" class="w-6 h-6 mr-2">
                         <span>Old Cash out rate: 20.00</span>
                     </div>
                     <div class="rate-option bg-orange-500 text-white hover:bg-orange-600" data-rate="12.50">
-                        <img src="/nagad%20logo%20192.png" alt="Nagad Logo" class="w-6 h-6 mr-2">
+                        <img src="/nagad%20logo.png" alt="Nagad Logo" class="w-6 h-6 mr-2">
                         <span>Nagad Regular App: 12.50</span>
                     </div>
                     <div class="rate-option bg-purple-500 text-white hover:bg-purple-600" data-rate="15.00">
-                        <img src="/nagad%20logo%20192.png" alt="Nagad Logo" class="w-6 h-6 mr-2">
+                        <img src="/nagad%20logo.png" alt="Nagad Logo" class="w-6 h-6 mr-2">
                         <span>Nagad Islamic App: 15.00</span>
                     </div>
                 </div>
@@ -294,7 +293,7 @@
             const rateModal = document.getElementById('rateModal');
             const newChargeRateInput = document.getElementById('newChargeRateInput');
             const saveRateButton = document.getElementById('saveRateButton');
-            const cancelRateButton = document.getElementById('cancelRateButton');
+            const cancelRateButton = document = document.getElementById('cancelRateButton');
             const rateOptions = document.querySelectorAll('.rate-option'); // Get all rate options
 
             // Initialize currentChargeRate and display it
