@@ -53,10 +53,9 @@
     </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="bg-white p-8 rounded-lg shadow-xl max-w-md w-full h-auto min-h-[70vh] flex flex-col justify-between text-center">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6">Bkash Charge Calculator</h1>
-
-        <div class="mb-0"> <!-- Reduced mb from mb-6 to mb-0 for spacing above input -->
+    <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full h-auto min-h-[70vh] flex flex-col justify-between text-center">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6"></h1>
+        <div class="mb-0">
             <input
                 type="number"
                 id="inputValue"
@@ -67,16 +66,19 @@
             />
         </div>
 
-        <!-- Moved "amount in writing" window here, below Enter Taka and above Send amount -->
-        <!-- Added flexbox properties to vertically center content and removed internal pt/pb -->
         <div id="amountInWordsContainer" class="bg-blue-50 rounded-lg border border-blue-200 mt-2 mb-0 text-base font-medium overflow-hidden flex flex-col justify-center" style="height: 60px;">
-            <div id="amountInBanglaWords" class="text-green-700 text-xl font-semibold px-2"></div> <!-- Reduced px from px-4 to px-2 -->
-            <div id="amountInEnglishWords" class="text-gray-600 capitalize text-lg px-2"></div> <!-- Reduced px from px-4 to px-2 -->
+            <div id="amountInBanglaWords" class="text-green-700 text-xl font-semibold px-2"></div>
+            <div id="amountInEnglishWords" class="text-gray-600 capitalize text-lg px-2"></div>
         </div>
 
-        <!-- "Send amount:" window now below "amount in writing" -->
-        <div id="resultDisplay" class="text-2xl font-bold text-gray-900 bg-blue-50 py-2 px-2 rounded-lg border border-blue-200 mt-2 mb-6"> <!-- Reduced p-4 to py-2 px-2 and reduced mb-4 to mb-6 -->
-            Send amount: <span id="pointsResult">0</span>
+        <!-- Removed mb-6 from resultDisplay -->
+        <div id="resultDisplay" class="text-2xl font-bold text-gray-900 bg-blue-50 py-2 px-2 rounded-lg border border-blue-200 mt-2 mb-0">
+            BKash Charge: <span id="pointsResult">0</span>
+        </div>
+
+        <!-- Removed mt-2 from totalAmountDisplay -->
+        <div id="totalAmountDisplay" class="text-2xl font-bold text-gray-900 bg-blue-50 py-2 px-2 rounded-lg border border-blue-200 mt-0 mb-6">
+            Total amount: <span id="totalAmountResult">0</span>
         </div>
 
         <div class="grid grid-cols-3 gap-1 mb-6 flex-grow">
@@ -89,11 +91,9 @@
             <button class="keypad-button" data-value="7">7</button>
             <button class="keypad-button" data-value="8">8</button>
             <button class="keypad-button" data-value="9">9</button>
-            <!-- Backspace key remains here -->
-            <button class="keypad-button action-key" data-action="backspace">←</button>
+            <button class="keypad-button action-key" data-action="clear">C</button>
             <button class="keypad-button" data-value="0">0</button>
-            <!-- Changed C to Enter/Return key and functionality -->
-            <button class="keypad-button action-key" data-action="calculate">⏎</button>
+            <button class="keypad-button action-key" data-action="backspace">←</button>
         </div>
 
         <div id="messageBox" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
@@ -108,9 +108,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Removed calculateButton from const declarations as it's removed from HTML
             const inputValue = document.getElementById('inputValue');
             const pointsResult = document.getElementById('pointsResult');
+            const totalAmountResult = document.getElementById('totalAmountResult');
             const messageBox = document.getElementById('messageBox');
             const messageText = document.getElementById('messageText');
             const closeMessageBox = document.getElementById('closeMessageBox');
@@ -132,12 +132,13 @@
             function performCalculation() {
                 const value = parseFloat(inputValue.value);
                 if (isNaN(value) || value < 0) {
-                    showMessageBox("Please enter a valid positive number.");
                     pointsResult.textContent = '0';
+                    totalAmountResult.textContent = '0';
                     return;
                 }
                 const calculatedCharge = (value / 1000) * 20;
                 pointsResult.textContent = calculatedCharge.toFixed(2);
+                totalAmountResult.textContent = (value + calculatedCharge).toFixed(2);
             }
 
             // Function to convert numbers to English words
@@ -316,8 +317,8 @@
             function updateAmountInWords() {
                 const value = inputValue.value;
                 if (value === '') {
-                    amountInBanglaWords.textContent = '';
-                    amountInEnglishWords.textContent = '';
+                    amountInBanglaWords.textContent = 'বিকাশ চার্জ ক্যালকুলেটর';
+                    amountInEnglishWords.textContent = 'Bkash Charge Calculator';
                 } else {
                     const num = parseFloat(value);
                     if (!isNaN(num) && num >= 0) {
@@ -330,14 +331,25 @@
                 }
             }
 
+            // New function to update all displays
+            function updateAllDisplays() {
+                updateAmountInWords();
+                performCalculation();
+            }
+
             // Update amount in words on keydown for physical keyboard or paste
             inputValue.addEventListener('keydown', (event) => {
                 if (event.key === 'Enter') {
                     event.preventDefault();
+                    // If physical Enter, perform calculation and possibly show error if invalid
+                    const value = parseFloat(inputValue.value);
+                    if (isNaN(value) || value < 0) {
+                         showMessageBox("Please enter a valid positive number.");
+                    }
                     performCalculation();
                 }
                 // Delay to allow input value to update before converting
-                setTimeout(updateAmountInWords, 0);
+                setTimeout(updateAllDisplays, 0); // Call updateAllDisplays here
             });
 
             // Update amount in words when virtual keypad buttons are clicked
@@ -359,21 +371,19 @@
                     if (value === '.' && inputValue.value === '') {
                          // Start with "0." if decimal is pressed first
                          inputValue.value = '0.';
-                    } else if (action === 'calculate') { // Handle the Calculate key
-                        performCalculation();
+                    } else if (action === 'clear') { // Handle the new Clear key
+                        inputValue.value = '';
                     } else if (value) {
                         inputValue.value += value;
-                    } else if (action === 'clear') { // Clear functionality is removed from key, but keeping JS in case of future re-addition
-                        inputValue.value = '';
                     } else if (action === 'backspace') {
                         inputValue.value = inputValue.value.slice(0, -1);
                     }
-                    updateAmountInWords(); // Update words after keypad interaction
+                    updateAllDisplays(); // Update all displays after keypad interaction
                 });
             });
 
             // Initial update in case there's a pre-filled value or on load
-            updateAmountInWords();
+            updateAllDisplays();
 
             closeMessageBox.addEventListener('click', hideMessageBox);
             messageBox.addEventListener('click', (event) => {
