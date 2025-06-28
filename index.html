@@ -62,7 +62,7 @@
             background-color: #c0c2c5; /* Darker shade on press */
         }
 
-        /* CSS for blinking emoji */
+        /* CSS for blinking emoji - made faster */
         @keyframes blink {
             0% { opacity: 1; }
             50% { opacity: 0; }
@@ -70,7 +70,9 @@
         }
 
         .blinking-emoji {
-            animation: blink 8s infinite; /* 4x slower: 2 seconds * 4 = 8 seconds for one full blink cycle */
+            animation: blink 4s infinite; /* Faster blinking: 4 seconds for one full blink cycle */
+            /* Initial state controlled by JS to be opaque until input is entered */
+            opacity: 0; 
         }
 
         /* Style for clickable rate options in modal */
@@ -112,6 +114,17 @@
             border: 2px solid #3b82f6; /* A more prominent blue border */
             background-color: #e0f2fe; /* Light blue background */
         }
+
+        /* New CSS for pulsing effect on total amount window - moved to a class */
+        @keyframes pulseBorder {
+            0% { border-color: #d1fae5; box-shadow: 0 0 0px rgba(52, 211, 153, 0.4); } /* Light green border, subtle shadow */
+            50% { border-color: #34d399; box-shadow: 0 0 10px rgba(52, 211, 153, 0.8); } /* Brighter green border, more prominent shadow */
+            100% { border-color: #d1fae5; box-shadow: 0 0 0px rgba(52, 211, 153, 0.4); }
+        }
+
+        .pulsing-border {
+            animation: pulseBorder 2s infinite ease-in-out; /* Apply pulsing effect */
+        }
     </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
@@ -145,7 +158,7 @@
         <div id="totalAmountDisplay" class="text-2xl font-bold text-gray-900 bg-green-100 py-2 px-2 rounded-lg border border-green-200 mt-0 mb-6 flex justify-between items-center">
             <div class="flex items-center">
                 <span>Total amount:</span>
-                <span id="blinkingEmoji" class="blinking-emoji ml-2 opacity-0">👉</span>
+                <span id="blinkingEmoji" class="blinking-emoji ml-2">👉</span>
             </div>
             <span id="totalAmountResult">0</span>
         </div>
@@ -163,7 +176,7 @@
             <!-- Changed C to Clear and made it red -->
             <button class="keypad-button bg-red-500 hover:bg-red-600 text-white" data-action="clear">Clear</button>
             <button class="keypad-button" data-value="0">0</button>
-            <button class="keypad-button action-key" data-action="backspace">←</button>
+            <button class="keypad-button action-key" data-action="backspace">Delete</button> <!-- Changed to Delete -->
         </div>
 
         <!-- Display for Charge Rate as text, and Change button -->
@@ -229,6 +242,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const inputValue = document.getElementById('inputValue');
             const pointsResult = document.getElementById('pointsResult');
+            const totalAmountDisplay = document.getElementById('totalAmountDisplay'); // Get the total amount display element
             const totalAmountResult = document.getElementById('totalAmountResult');
             const messageBox = document.getElementById('messageBox');
             const messageText = document.getElementById('messageText');
@@ -361,7 +375,7 @@
                     'ত্রিশ', 'একত্রিশ', 'বত্রিশ', 'তেত্রিশ', 'চৌত্রিশ', 'পঁয়ত্রিশ', 'ছত্রিশ', 'সাঁইত্রিশ', 'আটত্রিশ', 'ঊনচল্লিশ',
                     'চল্লিশ', 'একচল্লিশ', 'বিয়াল্লিশ', 'তেতাল্লিশ', 'চুয়াল্লিশ', 'পঁয়তাল্লিশ', 'ছেচল্লিশ', 'সাতচল্লিশ', 'আটচল্লিশ', 'ঊনপঞ্চাশ',
                     'পঞ্চাশ', 'একান্ন', 'বায়ান্ন', 'তিপ্পান্ন', 'চুয়ান্ন', 'পঞ্চান্ন', 'ছাপ্পান্ন', 'সাতান্ন', 'আটান্ন', 'ঊনষাট',
-                    'ষাট', 'একষট্টি', 'বাষট্টি', 'তেষট্টি', 'চৌষট্টি', 'পঁয়ষট্টি', 'ছেষট্টি', 'সাতষট্টি', 'আটষট্টি', 'ঊনসত্তর',
+                    'ষাট', 'একষট্টি', 'বাষট্টি', 'তেষট্টি', 'চৌষট্টি', 'পঁয়ষট্টি', 'ছেচল্লিশ', 'সাতচল্লিশ', 'আটচল্লিশ', 'ঊনসত্তর',
                     'সত্তর', 'একাত্তর', 'বাহাত্তর', 'তিয়াত্তর', 'চুয়াত্তর', 'পঁচাত্তর', 'ছিয়াত্তর', 'সাতাত্তর', 'আটাত্তর', 'ঊনআশি',
                     'আশি', 'একআশি', 'বিরাশি', 'তিরাশি', 'চুরাশি', 'পঁচাশি', 'ছিয়াশি', 'সাতাশি', 'আটাশি', 'ঊননব্বই',
                     'নব্বই', 'একানব্বই', 'বিরানব্বই', 'তিরানব্বই', 'চুরানব্বই', 'পঁচানব্বই', 'ছিয়ানব্বই', 'সাতানব্বই', 'আঠানব্বই', 'নিরানব্বই'
@@ -474,10 +488,17 @@
                 }
             }
 
-            // New function to update all displays
+            // New function to update all displays and control animations
             function updateAllDisplays() {
                 updateAmountInWords();
                 performCalculation();
+
+                // Control pulsing effect on total amount display
+                if (inputValue.value === '' || parseFloat(inputValue.value) === 0) {
+                    totalAmountDisplay.classList.remove('pulsing-border');
+                } else {
+                    totalAmountDisplay.classList.add('pulsing-border');
+                }
             }
 
             // Function to apply zoom and glow effect to the displayChargeRate span
@@ -541,7 +562,7 @@
 
                     // Add a 'pressed' class for visual feedback
                     button.classList.add('pressed');
-                    // Remove the class immediately after the browser processes the click
+                    // Removed the explicit timeout and used requestAnimationFrame for immediate removal
                     requestAnimationFrame(() => {
                         button.classList.remove('pressed');
                     });
@@ -571,7 +592,7 @@
             });
 
             // Initial update in case there's a pre-filled value or on load
-            updateAllDisplays();
+            updateAllDisplays(); // Call once on load to set initial state
 
             closeMessageBox.addEventListener('click', hideMessageBox);
             messageBox.addEventListener('click', (event) => {
