@@ -1,7 +1,7 @@
 {
-    "name": "Bkash Calculator",
-    "short_name": "Bkash Calc",
-    "description": "A simple Bkash Charge Calculator by Ridwan",
+    "name": "Cash Out Calculator",
+    "short_name": "Cashout Calc",
+    "description": "A simple Cash Out Calculator for MFS in Bangladesh",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#f0f2f5",
