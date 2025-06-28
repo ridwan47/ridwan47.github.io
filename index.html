@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bkash Charge Calculator</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Link to your Web App Manifest -->
+    <link rel="manifest" href="/manifest.json">
     <style>
         body {
             font-family: "Inter", sans-serif;
@@ -149,7 +151,8 @@
             <button class="keypad-button" data-value="7">7</button>
             <button class="keypad-button" data-value="8">8</button>
             <button class="keypad-button" data-value="9">9</button>
-            <button class="keypad-button action-key" data-action="clear">C</button>
+            <!-- Changed C to Clear and made it red -->
+            <button class="keypad-button bg-red-500 hover:bg-red-600 text-white" data-action="clear">Clear</button>
             <button class="keypad-button" data-value="0">0</button>
             <button class="keypad-button action-key" data-action="backspace">←</button>
         </div>
@@ -201,6 +204,19 @@
     </div>
 
     <script>
+        // Service Worker registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('Service Worker registered: ', registration);
+                    })
+                    .catch(error => {
+                        console.log('Service Worker registration failed: ', error);
+                    });
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const inputValue = document.getElementById('inputValue');
             const pointsResult = document.getElementById('pointsResult');
