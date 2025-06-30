@@ -36,7 +36,7 @@
             
             /* Added box-shadow and updated transition for the press effect */
             box-shadow: 0 5px rgba(0, 0, 0, 0.3); 
-            transition: transform 0.1s ease-out, box-shadow 0.1s ease-out; 
+            transition: transform 0.05s ease-out, box-shadow 0.05s ease-out, background-color 0.15s; 
         }
         .keypad-button:hover {
             background-color: #d1d5db;
@@ -44,9 +44,15 @@
         .keypad-button:active {
             box-shadow: none; /* Remove shadow on click */
             transform: translateY(5px); /* Move down on click */
+            background-color: #c0c2c5; /* Darker shade on immediate press */
         }
         /* New CSS for button press effect - more distinct background change */
-        /* Removed .keypad-button.pressed as it's no longer needed with blur() */
+        .keypad-button.pressed {
+            transform: scale(0.95); /* Slightly shrink on press */
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Inset shadow for press effect */
+            background-color: #c0c2c5; /* Darker shade on press */
+            transition: transform 0.05s ease-out, box-shadow 0.05s ease-out, background-color 0.05s ease-out; /* Quick transition for this state too */
+        }
         
         .keypad-button.action-key {
             background-color: #3b82f6; /* Blue for Delete */
@@ -666,6 +672,16 @@
                     const value = button.dataset.value;
                     const action = button.dataset.action;
 
+                    // Apply 'pressed' class for visual feedback
+                    button.classList.add('pressed');
+                    requestAnimationFrame(() => {
+                        // Remove the 'pressed' class after a very short delay
+                        setTimeout(() => {
+                            button.classList.remove('pressed');
+                            button.blur(); // Ensure focus is removed
+                        }, 50); // 50ms delay for the visual effect
+                    });
+
                     // Handle decimal point input
                     if (value === '.' && inputValue.value.includes('.')) {
                         
@@ -689,9 +705,7 @@
                     updateAllDisplays(); 
                 });
 
-                // Add mouseup and touchend listeners to blur the button
-                button.addEventListener('mouseup', () => button.blur());
-                button.addEventListener('touchend', () => button.blur());
+                // Removed separate mouseup/touchend listeners for blur as it's now handled in the click handler's setTimeout
             });
 
             // Initial update in case there's a pre-filled value or on load
