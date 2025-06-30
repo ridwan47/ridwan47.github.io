@@ -239,8 +239,8 @@
 
         <!-- Display for Charge Rate and Change button -->
         <div class="mt-4 text-left flex items-center px-2">
-            <label class="block text-gray-700 text-sm font-bold whitespace-nowrap">
-                Cash Out Rate (per 1000 Taka):
+            <label class="block text-gray-700 text-sm font-bold whitespace-nowrap mr-2">
+                Cash Out Rate (per 1000 Tk):
             </label><!--
             --><span id="displayChargeRate" class="text-xl font-bold text-blue-700 mr-2"></span><!--
             --><button
@@ -678,7 +678,8 @@
                         // Remove the 'pressed' class after a very short delay
                         setTimeout(() => {
                             button.classList.remove('pressed');
-                            button.blur(); // Ensure focus is removed
+                            // No need for button.blur() here, as the short timeout for 'pressed' class
+                            // and `:active` state handling should be sufficient for visual reset.
                         }, 50); // 50ms delay for the visual effect
                     });
 
