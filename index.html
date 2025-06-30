@@ -233,14 +233,18 @@
         </div>
 
         <!-- Display for Charge Rate and Change button -->
-        <div class="mt-4 text-left flex items-center justify-between px-2"> <!-- Added px-2 back -->
-            <label class="block text-gray-700 text-sm font-bold whitespace-nowrap flex-shrink-0"> <!-- Removed mr-1 -->
-                Cash Out Rate (per 1000 Taka):
-            </label>
-            <span id="displayChargeRate" class="text-2xl font-bold text-blue-700 flex-shrink-0 ml-auto"></span> <!-- Added ml-auto -->
+        <div class="mt-4 text-left flex items-center justify-between px-2">
+            <!-- Group label and displayRate together -->
+            <div class="flex items-center flex-shrink-0">
+                <label class="block text-gray-700 text-sm font-bold whitespace-nowrap">
+                    Cash Out Rate (per 1000 Taka):
+                </label>
+                <span id="displayChargeRate" class="text-2xl font-bold text-blue-700 ml-1"></span>
+            </div>
+            <!-- Button remains as a separate flex item -->
             <button
                 id="changeRateButton"
-                class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-75 transition duration-200 flex-shrink-0 ml-2" <!-- Added ml-2 -->
+                class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-75 transition duration-200 flex-shrink-0"
             >
                 Change
             </button>
@@ -265,7 +269,7 @@
                 <!-- Save and Cancel buttons moved here -->
                 <div class="flex justify-around mb-8">
                     <button id="saveRateButton" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">Save</button>
-                    <button id="cancelRateButton" class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300">Cancel</button>
+                    <button id="cancelRateButton" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">Cancel</button>
                 </div>
 
                 <div class="mb-4 flex-grow">
