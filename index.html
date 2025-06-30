@@ -165,9 +165,8 @@
 
         /* Ensure English words stay on one line and allow font size to be set by JS */
         #amountInEnglishWords {
-            white-space: nowrap; /* Forces text to stay on a single line */
-            overflow: hidden;    /* Hides overflow, but JS will shrink font to prevent it */
-            text-overflow: clip; /* Ensures text is clipped, no ellipses by default */
+            /* Removed white-space: nowrap; to allow wrapping */
+            /* Removed overflow: hidden; and text-overflow: clip; to allow visible wrapping */
         }
     </style>
 </head>
@@ -457,9 +456,9 @@
                     'চল্লিশ', 'একচল্লিশ', 'বিয়াল্লিশ', 'তেতাল্লিশ', 'চুয়াল্লিশ', 'পঁয়তাল্লিশ', 'ছেচল্লিশ', 'সাতচল্লিশ', 'আটচল্লিশ', 'ঊনপঞ্চাশ',
                     'পঞ্চাশ', 'একান্ন', 'বায়ান্ন', 'তিপ্পান্ন', 'চুয়ান্ন', 'পঞ্চান্ন', 'ছাপ্পান্ন', 'সাতান্ন', 'আটান্ন', 'ঊনষাট',
                     'ষাট', 'একষট্টি', 'বাষট্টি', 'তেষট্টি', 'চৌষট্টি', 'পঁয়ষট্টি', 'ছেষট্টি', 'সাতষট্টি', 'আটষট্টি', 'ঊনসত্তর',
-                    'sottor', 'ekattor', 'bahattor', 'tiyattor', 'chuattor', 'pachattor', 'chiyattor', 'satattor', 'atattor', 'unashi',
-                    'ashi', 'ekashi', 'birashi', 'tirashi', 'churashi', 'pachashi', 'chiyashi', 'satashi', 'atashi', 'unonnobboi',
-                    'nobboi', 'ekanobboi', 'biranobboi', 'tiranobboi', 'churanobboi', 'pachanobboi', 'chiyanobboi', 'satanobboi', 'athanobboi', 'niranobboi'
+                    'সত্তর', 'একাত্তর', 'বাহাত্তর', 'তিয়াত্তর', 'চুয়াত্তর', 'পঁচাত্তর', 'ছিয়াত্তর', 'সাতাত্তর', 'আটাত্তর', 'ঊনআশি',
+                    'আশি', 'একআশি', 'বিরাশি', 'তিরাশি', 'চুরাশি', 'পঁচাশি', 'ছিয়াশি', 'সাতাশি', 'আটাশি', 'ঊননব্বই',
+                    'নব্বই', 'একানব্বই', 'বিরানব্বই', 'তিরানব্বই', 'চুরানব্বই', 'পঁচানব্বই', 'ছিয়ানব্বই', 'সাতানব্বই', 'আঠানব্বই', 'নিরানব্বই'
                 ];
 
                 const banglaScales = ['', 'হাজার', 'লাখ', 'কোটি', 'আরব', 'খর্ব', 'নীল', 'পদ্ম', 'শঙ্খ']; 
