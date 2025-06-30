@@ -179,7 +179,7 @@
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-sm h-auto flex flex-col justify-between text-center mx-auto">
         <!-- Input fields and display areas -->
-        <h1 class="text-3xl font-bold text-gray-800"></h1> 
+        <!-- Removed the empty h1 as it's no longer needed -->
         
         <div class="mb-0">
             <input
@@ -194,7 +194,16 @@
 
         <div id="amountInWordsContainer" class="bg-blue-50 rounded-lg border border-blue-200 mt-2 mb-0 text-base font-medium overflow-hidden flex flex-col justify-center" style="min-height: 60px; height: auto;">
             <div id="amountInBanglaWords" class="text-green-700 text-xl font-semibold px-2"></div>
-            <div id="amountInEnglishWords" class="text-gray-600 capitalize px-2"></div>
+            <div id="amountInEnglishWords" class="text-gray-600 capitalize px-2 relative flex items-center">
+                <!-- This span will contain the "Cash Out Calculator" text or the English words -->
+                <span id="displayEnglishText" class="flex-grow text-center"></span>
+                <!-- This is the share icon, now aligned to the right and bigger -->
+                <svg id="shareAppIcon" class="w-8 h-8 cursor-pointer text-gray-600 absolute right-2 top-1/2 -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" enable-background="new 0 0 50 50">
+                    <path d="M30.3 13.7L25 8.4l-5.3 5.3-1.4-1.4L25 5.6l6.7 6.7z"/>
+                    <path d="M24 7h2v21h-2z"/>
+                    <path d="M35 40H15c-1.7 0-3-1.3-3-3V19c0-1.7 1.3-3 3-3h7v2h-7c-.6 0-1 .4-1 1v18c0 .6.4 1 1 1h20c.6 0 1-.4 1-1V19c0-.6-.4-1-1-1h-7v-2h7c1.7 0 3 1.3 3 3v18c0 1.7-1.3 3-3 3z"/>
+                </svg>
+            </div>
         </div>
 
         <div id="resultDisplay" class="text-2xl font-bold text-gray-900 bg-red-100 py-2 px-2 rounded-lg border border-red-200 mt-2 mb-1 flex justify-between items-center">
@@ -257,6 +266,7 @@
                 <p id="messageText" class="text-gray-800 text-lg mb-4"></p>
                 <button id="closeMessageBox" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     OK
+
                 </button>
             </div>
         </div>
@@ -336,7 +346,9 @@
             const closeMessageBox = document.getElementById('closeMessageBox');
             const keypadButtons = document.querySelectorAll('.keypad-button');
             const amountInBanglaWords = document.getElementById('amountInBanglaWords');
-            const amountInEnglishWords = document.getElementById('amountInEnglishWords');
+            const amountInEnglishWords = document.getElementById('amountInEnglishWords'); // This is the container for displayEnglishText and shareAppIcon
+            const displayEnglishText = document.getElementById('displayEnglishText'); // New span for the English text
+            const shareAppIcon = document.getElementById('shareAppIcon'); // New
             
             // New elements for charge rate display and modal
             const displayChargeRate = document.getElementById('displayChargeRate');
@@ -554,48 +566,50 @@
             // Function to update the amount in words display for both languages
             function updateAmountInWords() {
                 const value = inputValue.value;
-                const englishWordsElement = document.getElementById('amountInEnglishWords');
                 const originalEnglishFontSize = 20; // Slightly increased default font size for numbers
 
                 // Reset font size and weight for English words before applying logic
-                englishWordsElement.style.fontSize = originalEnglishFontSize + 'px';
-                englishWordsElement.style.fontWeight = 'normal';
+                displayEnglishText.style.fontSize = originalEnglishFontSize + 'px';
+                displayEnglishText.style.fontWeight = 'normal';
 
                 // To accurately get a single line height for comparison
                 // We must do this *after* setting the initial font size and font properties
                 // but *before* putting the multi-line content, so we temporarily set dummy content.
-                const tempContent = englishWordsElement.textContent; // Save current content
-                englishWordsElement.textContent = 'M'; // Use 'M' as it's typically a good representative character for height
-                const singleLineHeight = englishWordsElement.clientHeight; // Get computed height of a single line of 'M'
-                englishWordsElement.textContent = tempContent; // Restore previous content
+                const tempContent = displayEnglishText.textContent; // Save current content
+                displayEnglishText.textContent = 'M'; // Use 'M' as it's typically a good representative character for height
+                const singleLineHeight = displayEnglishText.clientHeight; // Get computed height of a single line of 'M'
+                displayEnglishText.textContent = tempContent; // Restore previous content
 
 
                 if (value === '') {
-                    englishWordsElement.textContent = 'Cash Out Calculator';
-                    englishWordsElement.style.fontWeight = 'bold'; 
-                    englishWordsElement.style.fontSize = '24px'; 
+                    displayEnglishText.textContent = 'Cash Out Calculator';
+                    displayEnglishText.style.fontWeight = 'bold'; 
+                    displayEnglishText.style.fontSize = '24px'; 
                     amountInBanglaWords.textContent = ''; 
+                    shareAppIcon.style.display = 'block'; // Show the share icon
                 } else {
                     const num = parseFloat(value);
                     if (!isNaN(num) && num >= 0) {
                         amountInBanglaWords.textContent = numberToBanglaWords(num);
-                        englishWordsElement.textContent = numberToEnglishWords(num);
+                        displayEnglishText.textContent = numberToEnglishWords(num);
+                        shareAppIcon.style.display = 'none'; // Hide the share icon
 
                         // Ensure initial font size is set before evaluating for shrinking
-                        englishWordsElement.style.fontSize = originalEnglishFontSize + 'px';
+                        displayEnglishText.style.fontSize = originalEnglishFontSize + 'px';
 
                         // Shrink font if it wraps or overflows horizontally
                         // We use a small buffer (e.g., 2px) for singleLineHeight comparison
                         // to account for potential fractional pixel rendering or small top/bottom padding
-                        while ((englishWordsElement.scrollHeight > singleLineHeight + 2 || englishWordsElement.scrollWidth > englishWordsElement.clientWidth) && englishWordsElement.style.fontSize && parseFloat(englishWordsElement.style.fontSize) > 12) {
-                            let currentFontSize = parseFloat(englishWordsElement.style.fontSize);
+                        while ((displayEnglishText.scrollHeight > singleLineHeight + 2 || displayEnglishText.scrollWidth > displayEnglishText.clientWidth) && displayEnglishText.style.fontSize && parseFloat(displayEnglishText.style.fontSize) > 12) {
+                            let currentFontSize = parseFloat(displayEnglishText.style.fontSize);
                             currentFontSize -= 1;
-                            englishWordsElement.style.fontSize = currentFontSize + 'px';
+                            displayEnglishText.style.fontSize = currentFontSize + 'px';
                         }
 
                     } else {
                         amountInBanglaWords.textContent = '';
-                        englishWordsElement.textContent = '';
+                        displayEnglishText.textContent = '';
+                        shareAppIcon.style.display = 'none'; // Hide the share icon
                     }
                 }
             }
@@ -650,6 +664,28 @@
                     updateAllDisplays(); 
                 });
             });
+
+            // Event listener for the share icon
+            shareAppIcon.addEventListener('click', async () => {
+                if (navigator.share) {
+                    try {
+                        await navigator.share({
+                            title: 'Cash Out Calculator',
+                            text: 'Calculate your MFS cash out charges easily!',
+                            url: window.location.href,
+                        });
+                        console.log('App shared successfully');
+                    } catch (error) {
+                        console.error('Error sharing the app:', error);
+                        if (error.name !== 'AbortError') { // User cancelled share
+                             showMessageBox('Failed to share the app. Please try again.');
+                        }
+                    }
+                } else {
+                    showMessageBox('Web Share API is not supported in this browser.');
+                }
+            });
+
 
             // Update amount in words on keydown for physical keyboard or paste
             inputValue.addEventListener('keydown', (event) => {
