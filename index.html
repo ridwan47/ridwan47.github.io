@@ -553,7 +553,16 @@
 
                 // Reset font size and weight for English words before applying logic
                 englishWordsElement.style.fontSize = originalEnglishFontSize + 'px';
-                englishWordsElement.style.fontWeight = 'normal'; 
+                englishWordsElement.style.fontWeight = 'normal';
+
+                // To accurately get a single line height for comparison
+                // We must do this *after* setting the initial font size and font properties
+                // but *before* putting the multi-line content, so we temporarily set dummy content.
+                const tempContent = englishWordsElement.textContent; // Save current content
+                englishWordsElement.textContent = 'M'; // Use 'M' as it's typically a good representative character for height
+                const singleLineHeight = englishWordsElement.clientHeight; // Get computed height of a single line of 'M'
+                englishWordsElement.textContent = tempContent; // Restore previous content
+
 
                 if (value === '') {
                     englishWordsElement.textContent = 'Cash Out Calculator';
@@ -566,14 +575,15 @@
                         amountInBanglaWords.textContent = numberToBanglaWords(num);
                         englishWordsElement.textContent = numberToEnglishWords(num);
 
-                        // Dynamic font size adjustment for English words
-                        let currentFontSize = originalEnglishFontSize; 
-                        englishWordsElement.style.fontSize = currentFontSize + 'px';
+                        // Ensure initial font size is set before evaluating for shrinking
+                        englishWordsElement.style.fontSize = originalEnglishFontSize + 'px';
 
-                        // Check if text overflows, reduce font size if it does
-                        // Use clientWidth to check against the actual visible width of the element
-                        while (englishWordsElement.scrollWidth > englishWordsElement.clientWidth && currentFontSize > 12) { 
-                            currentFontSize -= 1; 
+                        // Shrink font if it wraps or overflows horizontally
+                        // We use a small buffer (e.g., 2px) for singleLineHeight comparison
+                        // to account for potential fractional pixel rendering or small top/bottom padding
+                        while ((englishWordsElement.scrollHeight > singleLineHeight + 2 || englishWordsElement.scrollWidth > englishWordsElement.clientWidth) && englishWordsElement.style.fontSize && parseFloat(englishWordsElement.style.fontSize) > 12) {
+                            let currentFontSize = parseFloat(englishWordsElement.style.fontSize);
+                            currentFontSize -= 1;
                             englishWordsElement.style.fontSize = currentFontSize + 'px';
                         }
 
