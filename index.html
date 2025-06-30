@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cash Out Calculator</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Favicon -->
     <link rel="icon" href="/favicon.png" type="image/png">
-    <!-- Link to your Web App Manifest -->
     <link rel="manifest" href="/manifest.json">
     <style>
         body {
@@ -16,11 +14,10 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #333; /* Darker background to match screenshot */
+            background-color: #f0f2f5; /* Changed back to original lighter background */
         }
         .keypad-button {
-            /* Adjusted font-size and padding to make keys smaller */
-            font-size: 2.5rem; /* Further reduced font size for numbers */
+            /* Adjusted padding to make keys smaller */
             padding: 0.35rem; /* Adjusted padding */
             background-color: #e5e7eb;
             border-radius: 0.5rem;
@@ -173,8 +170,7 @@
     </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full h-auto min-h-[70vh] flex flex-col justify-between text-center">
-        <!-- Input fields and display areas -->
+    <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-sm h-auto flex flex-col justify-between text-center mx-auto">
         <h1 class="text-3xl font-bold text-gray-800"></h1> 
         
         <div class="mb-0">
@@ -188,7 +184,7 @@
             />
         </div>
 
-        <div id="amountInWordsContainer" class="bg-blue-50 rounded-lg border border-blue-200 mt-2 mb-0 text-base font-medium overflow-hidden flex flex-col justify-center" style="height: 60px;">
+        <div id="amountInWordsContainer" class="bg-blue-50 rounded-lg border border-blue-200 mt-2 mb-0 text-base font-medium overflow-hidden flex flex-col justify-center" style="min-height: 60px; height: auto;">
             <div id="amountInBanglaWords" class="text-green-700 text-xl font-semibold px-2"></div>
             <div id="amountInEnglishWords" class="text-gray-600 capitalize px-2"></div>
         </div>
@@ -205,49 +201,42 @@
             <span id="totalAmountResult">0</span>
         </div>
 
-        <!-- Keypad buttons -->
         <div class="grid grid-cols-3 gap-1 mb-6 flex-grow">
-            <button class="keypad-button" data-value="1">1</button>
-            <button class="keypad-button" data-value="2">2</button>
-            <button class="keypad-button" data-value="3">3</button>
-            <button class="keypad-button" data-value="4">4</button>
-            <button class="keypad-button" data-value="5">5</button>
-            <button class="keypad-button" data-value="6">6</button>
-            <button class="keypad-button" data-value="7">7</button>
-            <button class="keypad-button" data-value="8">8</button>
-            <button class="keypad-button" data-value="9">9</button>
-            <!-- Clear button with updated SVG and text-4xl -->
+            <button class="keypad-button text-4xl" data-value="1">1</button>
+            <button class="keypad-button text-4xl" data-value="2">2</button>
+            <button class="keypad-button text-4xl" data-value="3">3</button>
+            <button class="keypad-button text-4xl" data-value="4">4</button>
+            <button class="keypad-button text-4xl" data-value="5">5</button>
+            <button class="keypad-button text-4xl" data-value="6">6</button>
+            <button class="keypad-button text-4xl" data-value="7">7</button>
+            <button class="keypad-button text-4xl" data-value="8">8</button>
+            <button class="keypad-button text-4xl" data-value="9">9</button>
             <button class="keypad-button bg-red-500 hover:bg-red-600 text-white" data-action="clear">
                 <svg class="w-9 h-9" y="0px" x="0px" fill="white" viewBox="0.6000000000000001 0.8999999999999999 23.16 22.14" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5.75463 7C7.21158 5.18252 9.44546 4.01468 11.9526 4.00014C11.987 3.99994 12.0213 3.99996 12.0557 4.00019C14.1899 4.01474 16.1256 4.86498 17.5518 6.24003C17.6346 6.31978 17.7156 6.40134 17.7949 6.48468C19.136 7.89332 19.9688 9.79034 19.9991 11.8816C20.0004 11.9644 20.0003 12.0472 19.999 12.1301C19.9659 14.2041 19.1436 16.0863 17.8194 17.4896C17.7136 17.6017 17.6045 17.7108 17.4922 17.8169C16.0866 19.1445 14.2001 19.9682 12.1214 19.9991C12.0447 20.0003 11.9678 20.0003 11.8909 19.9993C7.85982 19.9454 4.54848 16.9101 4.06165 12.998C3.99344 12.45 3.55229 12 3 12C2.44772 12 1.99481 12.4488 2.04994 12.9983C2.08376 13.3355 2.13461 13.6698 2.20202 14C2.5565 15.7365 3.36894 17.3602 4.57153 18.6946C6.22692 20.5315 8.50415 21.6899 10.9636 21.9461C13.423 22.2024 15.8901 21.5384 17.8886 20.0823C19.8872 18.6262 21.2754 16.4813 21.7852 14.0617C22.295 11.6421 21.8902 9.11945 20.6491 6.98077C19.408 4.84208 17.4185 3.23907 15.0648 2.48123C12.7111 1.72339 10.16 1.86448 7.90423 2.87725C6.34818 3.57586 5.00873 4.65506 4 5.99997V4C4 3.44772 3.55228 3 3 3C2.44772 3 2 3.44772 2 4V8V9H3H7C7.55228 9 8 8.55228 8 8C8 7.44772 7.55228 7 7 7H5.75463Z" clip-rule="evenodd" fill-rule="evenodd"/>
                 </svg>
-                <span class="text-4xl">Clear</span>
+                <span class="text-3xl">Clear</span>
             </button>
-            <button class="keypad-button" data-value="0">0</button>
-            <!-- Delete button with updated SVG -->
+            <button class="keypad-button text-4xl" data-value="0">0</button>
             <button class="keypad-button action-key flex flex-col items-center justify-center gap-1" data-action="backspace">
                 <svg class="w-9 h-9" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M17 9L11 15M11 9L17 15M2.72 12.96L7.04 18.72C7.392 19.1893 7.568 19.424 7.79105 19.5932C7.9886 19.7432 8.21232 19.855 8.45077 19.9231C8.72 20 9.01334 20 9.6 20H17.2C18.8802 20 19.7202 20 20.362 19.673C20.9265 19.3854 21.3854 18.9265 21.673 18.362C22 17.7202 22 16.8802 22 15.2V8.8C22 7.11984 22 6.27976 21.673 5.63803C21.3854 5.07354 20.9265 4.6146 20.362 4.32698C19.7202 4 18.8802 4 17.2 4H9.6C9.01334 4 8.72 4 8.45077 4.07689C8.21232 4.14499 7.9886 4.25685 7.79105 4.40675C7.568 4.576 7.392 4.81067 7.04 5.28L2.72 11.04C2.46181 11.3843 2.33271 11.5564 2.28294 11.7454C2.23902 11.9123 2.23902 12.0877 2.28294 12.2546C2.33271 12.4436 2.46181 12.6157 2.72 12.96Z" />
                 </svg>
-                <span class="text-4xl">Delete</span>
+                <span class="text-3xl">Delete</span>
             </button> 
         </div>
 
-        <!-- Display for Charge Rate and Change button -->
-        <div class="mt-4 text-left flex items-center justify-between">
-            <label class="block text-gray-700 text-sm font-bold whitespace-nowrap mr-2">
-                Cash Out Rate (per 1000 Taka):
+        <div class="mt-4 text-left flex items-center justify-between"> <label class="block text-gray-700 text-sm font-bold whitespace-nowrap flex-shrink-0"> Cash Out Rate (per 1000 Taka):
             </label>
-            <span id="displayChargeRate" class="text-2xl font-bold text-blue-700"></span>
+            <span id="displayChargeRate" class="text-2xl font-bold text-blue-700 flex-shrink-0 ml-auto"></span> 
             <button
                 id="changeRateButton"
-                class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-75 transition duration-200 ml-2"
+                class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-75 transition duration-200 flex-shrink-0 ml-2" 
             >
                 Change
             </button>
         </div>
 
-        <!-- General Message Box (kept for general messages) -->
         <div id="messageBox" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
             <div class="bg-white p-6 rounded-lg shadow-lg text-center max-w-xs mx-auto">
                 <p id="messageText" class="text-gray-800 text-lg mb-4"></p>
@@ -257,20 +246,17 @@
             </div>
         </div>
 
-        <!-- New Modal for changing Charge Rate -->
         <div id="rateModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
             <div class="bg-white p-6 rounded-lg shadow-lg text-center max-w-lg mx-auto flex flex-col justify-between relative">
                 <p class="text-gray-800 text-lg mb-4">Enter New Cash Out Rate:</p>
                 <input type="number" id="newChargeRateInput" class="w-full p-2 border rounded mb-4 text-center text-xl" value="18.50" min="0" step="0.01" placeholder="Edit">
                 
-                <!-- Save and Cancel buttons moved here -->
                 <div class="flex justify-around mb-8">
                     <button id="saveRateButton" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">Save</button>
                     <button id="cancelRateButton" class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300">Cancel</button>
                 </div>
 
                 <div class="mb-4 flex-grow">
-                    <!-- Bkash Section -->
                     <div class="rate-section-header">
                         <img src="/bkash%20logo.png" alt="Bkash Logo">
                         <h3>Bkash</h3>
@@ -285,7 +271,6 @@
                         <span>Old Cash out rate: 20.00</span>
                     </div>
 
-                    <!-- Nagad Section -->
                     <div class="rate-section-header nagad-header">
                         <img src="/nagad%20logo.png" alt="Nagad Logo">
                         <h3>Nagad</h3>
@@ -298,7 +283,6 @@
                     </div>
                 </div>
 
-                <!-- Copyright Notice inside modal, positioned at absolute bottom -->
                 <div class="text-gray-600 text-base absolute bottom-0 left-1/2 -translate-x-1/2 p-1 whitespace-nowrap">
                     Copyright © Cash Out Calculator by <a href="https://x.com/mdridwan" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">mdridwan</a>
                 </div>
@@ -451,15 +435,15 @@
                 // Comprehensive list for numbers 0-99 for accuracy
                 const banglaNumbers0To99 = [
                     'শূন্য', 'এক', 'দুই', 'তিন', 'চার', 'পাঁচ', 'ছয়', 'সাত', 'আট', 'নয়',
-                    'দশ', 'এগারো', 'বারো', 'তেরো', 'চৌদ্দ', 'pনেরো', 'ষোলো', 'সতেরো', 'আঠারো', 'উনিশ',
-                    'বিশ', 'একুশ', 'বাইশ', 'তেইশ', 'চব্বিশ', 'pঁচিশ', 'ছাব্বিশ', 'সাতাশ', 'আটাশ', 'ঊনত্রিশ',
-                    'ত্রিশ', 'একত্রিশ', 'বত্রিশ', 'তেত্রিশ', 'চৌত্রিশ', 'pঁয়ত্রিশ', 'ছত্রিশ', 'সাঁইত্রিশ', 'আটত্রিশ', 'ঊনচল্লিশ',
-                    'চল্লিশ', 'একচল্লিশ', 'বিয়াল্লিশ', 'তেতাল্লিশ', 'চুয়াল্লিশ', 'pঁয়তাল্লিশ', 'ছেচল্লিশ', 'সাতচল্লিশ', 'আটচল্লিশ', 'ঊনপঞ্চাশ',
-                    'পঞ্চাশ', 'একান্ন', 'বায়ান্ন', 'তিপ্পান্ন', 'চুয়ান্ন', 'pঁচান্ন', 'ছাপ্পান্ন', 'সাতান্ন', 'আটান্ন', 'ঊনষাট',
-                    'ষাট', 'একষট্টি', 'বাষট্টি', 'তেষট্টি', 'চৌষট্টি', 'pঁয়ষট্টি', 'ছেচল্লিশ', 'সাতচল্লিশ', 'আটচল্লিশ', 'ঊনসত্তর',
-                    'sত্তর', 'একাত্তর', 'বাহাত্তর', 'tiয়াত্তর', 'চুয়াত্তর', 'pঁচাত্তর', 'ছিয়াত্তর', 'সাতাত্তর', 'আটাত্তর', 'ঊনআশি',
-                    'আশি', 'একআশি', 'বিরাশি', 'তিরাশি', 'চুরাশি', 'pঁচাশি', 'ছিয়াশি', 'সাতাশি', 'আটাশি', 'ঊননব্বই',
-                    'নব্বই', 'একানব্বই', 'বিরানব্বই', 'তিরানব্বই', 'চুরানব্বই', 'pঁচানব্বই', 'ছিয়ানব্বই', 'সাতানব্বই', 'আঠানব্বই', 'নিরানব্বই'
+                    'দশ', 'এগারো', 'বারো', 'তেরো', 'চৌদ্দ', 'pনেরো', 'ষোলো', 'sতেরো', 'আঠারো', 'উনিশ',
+                    'বিশ', 'একুশ', 'বাইশ', 'তেইশ', 'চব্বিশ', 'pঁচিশ', 'ছাব্বিশ', 'sাতাশ', 'আটাশ', 'ঊনত্রিশ',
+                    'ত্রিশ', 'একত্রিশ', 'বত্রিশ', 'teত্রিশ', 'চৌত্রিশ', 'pঁয়ত্রিশ', 'ছত্রিশ', 'sাঁইত্রিশ', 'আটত্রিশ', 'ঊনচল্লিশ',
+                    'চল্লিশ', 'একচল্লিশ', 'বিয়াল্লিশ', 'teতাল্লিশ', 'চুয়াল্লিশ', 'pঁয়তাল্লিশ', 'ছেচল্লিশ', 'sাতচল্লিশ', 'আটচল্লিশ', 'ঊনপঞ্চাশ',
+                    'পঞ্চাশ', 'একান্ন', 'বায়ান্ন', 'tiপ্পান্ন', 'চুয়ান্ন', 'pঁচান্ন', 'ছাপ্পান্ন', 'sাতান্ন', 'আটান্ন', 'ঊনষাট',
+                    'ষাট', 'একষট্টি', 'বাষট্টি', 'teষট্টি', 'চৌষট্টি', 'pঁয়ষট্টি', 'ছেচল্লিশ', 'sাতচল্লিশ', 'আটচল্লিশ', 'ঊনসত্তর',
+                    'sত্তর', 'একাত্তর', 'বাহাত্তর', 'tiয়াত্তর', 'চুয়াত্তর', 'pঁচাত্তর', 'ছিয়াত্তর', 'sাতাত্তর', 'আটাত্তর', 'ঊনআশি',
+                    'আশি', 'একআশি', 'বিরাশি', 'tiরাশি', 'চুরাশি', 'pঁচাশি', 'ছিয়াশি', 'sাতাশি', 'আটাশি', 'ঊননব্বই',
+                    'নব্বই', 'একানব্বই', 'বিরানব্বই', 'tiরানব্বই', 'চুরানব্বই', 'pঁচানব্বই', 'ছিয়ানব্বই', 'sাতানব্বই', 'আঠানব্বই', 'নিরানব্বই'
                 ];
 
                 const banglaScales = ['', 'হাজার', 'লাখ', 'কোটি', 'আরব', 'খর্ব', 'নীল', 'পদ্ম', 'শঙ্খ']; 
