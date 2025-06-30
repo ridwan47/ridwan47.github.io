@@ -22,7 +22,7 @@
             /* Adjusted padding to make keys smaller */
             padding: 0.35rem; /* Adjusted padding */
             background-color: #e5e7eb;
-            border-radius: 0.5rem;
+            border-radius: 15px; /* Updated border-radius */
             color: #1f2937;
             font-weight: bold;
             aspect-ratio: 1 / 1;
@@ -30,16 +30,20 @@
             flex-direction: column; /* Allow content to stack */
             justify-content: center;
             align-items: center;
-            /* Drastically reduced transform transition for quick press effect */
-            transition: background-color 0.15s, transform 0.01s ease-out; 
+            cursor: pointer;
+            outline: none;
+            border: none; /* Ensure no default border */
+            
+            /* Added box-shadow and updated transition for the press effect */
+            box-shadow: 0 5px rgba(0, 0, 0, 0.3); 
+            transition: transform 0.1s ease-out, box-shadow 0.1s ease-out; 
         }
         .keypad-button:hover {
             background-color: #d1d5db;
         }
-        .keypad-button:focus {
-            outline: none;
-            /* Removed box-shadow to prevent lingering border after click */
-            box-shadow: none; 
+        .keypad-button:active {
+            box-shadow: none; /* Remove shadow on click */
+            transform: translateY(5px); /* Move down on click */
         }
         .keypad-button.action-key {
             background-color: #3b82f6; /* Blue for Delete */
@@ -56,13 +60,6 @@
         }
         .keypad-button[data-action="calculate"]:hover {
             background-color: #45a049;
-        }
-
-        /* New CSS for button press effect - more distinct background change */
-        .keypad-button.pressed {
-            transform: scale(0.95); /* Slightly shrink on press */
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Inset shadow for press effect */
-            background-color: #c0c2c5; /* Darker shade on press */
         }
 
         /* CSS for blinking emoji - This section is no longer directly used for emoji, but kept if opacity is used elsewhere */
@@ -666,12 +663,11 @@
                     const value = button.dataset.value;
                     const action = button.dataset.action;
 
-                    
-                    button.classList.add('pressed');
-                    
-                    requestAnimationFrame(() => {
-                        button.classList.remove('pressed');
-                    });
+                    // No need for 'pressed' class, :active handles visual feedback
+                    // button.classList.add('pressed');
+                    // requestAnimationFrame(() => {
+                    //     button.classList.remove('pressed');
+                    // });
 
                     // Handle decimal point input
                     if (value === '.' && inputValue.value.includes('.')) {
